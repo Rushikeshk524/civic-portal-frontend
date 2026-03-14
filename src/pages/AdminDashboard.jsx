@@ -12,9 +12,9 @@ const DEPARTMENTS = [
 
 export default function AdminDashboard() {
   const [complaints, setComplaints] = useState([]);
-  const [stats, setStats] = useState({ total:0, pending:0, in_progress:0, resolved:0 });
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState('all');
+  const [stats, setStats]           = useState({ total:0, pending:0, in_progress:0, resolved:0 });
+  const [loading, setLoading]       = useState(true);
+  const [filter, setFilter]         = useState('all');
 
   const loadAll = () => {
     api.get('/admin/complaints').then(r => { setComplaints(r.data); setLoading(false); });
