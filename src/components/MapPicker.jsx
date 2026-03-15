@@ -18,13 +18,25 @@ function ClickHandler({ onSelect }) {
       const lng = e.latlng.lng;
       setPos([lat, lng]);
       fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-        .then(r => r.json())
-        .then(data => {
-          onSelect(lat, lng, data.display_name);
-        })
-        .catch(() => {
-          onSelect(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
-        });
+  .then(r => r.json())
+  .then(data => {
+    const a = data.address;
+    // Build address from most specific to least specific
+    const parts = [
+      a.road || a.pedestrian || a.footway,
+      a.village || a.suburb || a.neighbourhood || a.hamlet,
+      a.town || a.city || a.county,
+      a.state_district,
+      a.state,
+      a.postcode
+    ].filter(Boolean); // Remove undefined/null parts
+
+    const address = parts.join(', ');
+    onSelect(lat, lng, address || data.display_name);
+  })
+  .catch(() => {
+    onSelect(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
+  });
     }
   });
 

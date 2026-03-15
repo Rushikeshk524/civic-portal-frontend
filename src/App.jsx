@@ -3,6 +3,7 @@ import Login          from './pages/Login';
 import Register       from './pages/Register';
 import AdminDashboard from './pages/AdminDashboard';
 import ReportComplaint from './pages/ReportComplaint';
+import TrackComplaint from './pages/TrackComplaint';
 
 const PrivateRoute = ({ children }) => {
   return localStorage.getItem('token') ? children : <Navigate to='/login' />;
@@ -17,6 +18,7 @@ function App() {
         <Route path='/register' element={<Register />} />
         <Route path='/admin'    element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
         <Route path='/report' element={<PrivateRoute><ReportComplaint/></PrivateRoute>} />
+        <Route path='/track' element={<PrivateRoute><TrackComplaint/></PrivateRoute>} />
       </Routes>
     </BrowserRouter>
   );
