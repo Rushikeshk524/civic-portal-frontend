@@ -4,122 +4,98 @@ import Navbar from '../components/Navbar';
 import StatusBadge from '../components/StatusBadge';
 
 export default function TrackComplaint() {
-    const [complaints, setCompliants] = useState([]);
-    const [loading, setLoading] = useState(true);
-    const [selected, setSelected] = useState(null);
+  const [complaints, setComplaints] = useState([]);
+  const [loading, setLoading]       = useState(true);
 
-    useEffect(() => {
-        api.get('/complaints')
-            .then(r => {setComplaints(r.data); setLoading(false); })
-            .catch(() => setLoading(false));
-        }, []);
-     return (
-        <>
-            <Navbar/>
-            <div className='container mt-4'>
-                <h2 className='mb-4'>My Complaints</h2>
+  useEffect(() => {
+    api.get('/complaints')
+      .then(r => { setComplaints(r.data); setLoading(false); })
+      .catch(() => setLoading(false));
+  }, []);
 
-                {loading && <p className='text-muted'>Loading...</p>}
+  const borderColor = (status) => {
+    if (status === 'resolved')    return '#198754';
+    if (status === 'in_progress') return '#ffc107';
+    return '#6c757d';
+  };
 
-                {!loading && complaints.length === 0 && (
-                    <div className='text-center mt-5'>
-                        <h5 className='text-muted'>No complaints submitted yet</h5>
-                        <a href='/report' className='btn btn-primary mt-3'>Report an Issue</a>
-                    </div>
-                )}
+  return (
+    <>
+      <Navbar />
+      <div className='container mt-4'>
 
-                <div className='row'>
-                    {complaints.map(c => (
-                        <div key={c.complaint_id} className='col-md-6 mb-3'>
-                            <div className='card shadow-sm h-100'
-                                style={{ cursor: 'pointer', borderLeft: `4px solid ${
-                                    c.status ==='resolved' ? '#198754' :
-                                    c.status ==='in_progress' ? '#ffc107' : '#6c757d'
-                                }`}}
-                                onClick={() => setSelected(c)}
-                            >
-                                <div className='card-body'>
-                                    <div className='d-flex justify-content-between align-items-start mb-2'>
-                                        <h6 className='card-title mb-0'>{c.title}</h6>
-                                        <StatusBadge status={c.status}/>
-                                    </div>
-                                    <p className='text-muted small mb-2'>
-                                        {c.category?.category_name}
-                                    </p>
-                                    <p className='card-text small'>
-                                        {c.description?.substring(0,80)}...
-                                    </p>
-                                    {c.address && (
-                                        <p className='small text-secondary mb-1'> {c.address}</p>
-                                    )}
-                                    {c.department && (
-                                        <p className='small text-success mb-1'>
-                                            Assigned to: {c.department.department_name}
-                                        </p>
-                                    )}
-                                    <small className='text-muted'>
-                                        Submitted: {new Date(c.created_at).toLocaleDateString('en-IN')}
-                                    </small>
-                                </div>
-                            </div>
-                        </div>
-                    ))}
+        <div className='d-flex justify-content-between align-items-center mb-4'>
+          <h2 className='mb-0'>My Complaints</h2>
+          <a href='/report' className='btn btn-primary btn-sm'>+ Report New Issue</a>
+        </div>
+
+        {loading && (
+          <div className='text-center mt-5'>
+            <div className='spinner-border text-primary' />
+            <p className='mt-2 text-muted'>Loading...</p>
+          </div>
+        )}
+
+        {!loading && complaints.length === 0 && (
+          <div className='text-center mt-5'>
+            <p className='text-muted fs-5'>No complaints submitted yet.</p>
+            <a href='/report' className='btn btn-primary mt-2'>Report an Issue</a>
+          </div>
+        )}
+
+        <div className='row'>
+          {complaints.map(c => (
+            <div key={c.complaint_id} className='col-md-6 mb-3'>
+              <div
+                className='card shadow-sm h-100'
+                style={{ borderLeft: `4px solid ${borderColor(c.status)}` }}
+              >
+                <div className='card-body'>
+
+                  {/* Title + Status */}
+                  <div className='d-flex justify-content-between align-items-start mb-2'>
+                    <h6 className='card-title mb-0 me-2'>{c.title}</h6>
+                    <StatusBadge status={c.status} />
+                  </div>
+
+                  {/* Description */}
+                  <p className='small text-muted mb-2'>
+                    {c.description?.substring(0, 80)}...
+                  </p>
+
+                  {/* Category */}
+                  <p className='small mb-1'>
+                    📁 <strong>{c.category?.category_name || 'N/A'}</strong>
+                  </p>
+
+                  {/* Department */}
+                  <p className='small mb-1'>
+                    🏢 <strong>{c.department?.department_name || 'Not assigned yet'}</strong>
+                  </p>
+
+                  {/* Location */}
+                  <p className='small mb-1'>
+                    📍 <strong>
+                      {c.location
+                        ? `${c.location.area_name}${c.location.pincode ? ' — ' + c.location.pincode : ''}`
+                        : 'No location provided'
+                      }
+                    </strong>
+                  </p>
+
+                  {/* Date */}
+                  <p className='small text-muted mb-0 mt-2'>
+                    🗓️ {new Date(c.created_at).toLocaleDateString('en-IN', {
+                      day: 'numeric', month: 'long', year: 'numeric'
+                    })}
+                  </p>
+
                 </div>
+              </div>
             </div>
-
-            {/*Detail Modal*/}{
-                selected && (
-                    <div className='modal show d-block' style={{ backgroundColor: 'rgba(0,0,0,0.5'}}>
-                        <div className='modal-dialog modal-lg'>
-                            <div className='modal-content'>
-                                <div className='modal-header'>
-                                    <h5 className='modal-title'>{selected.title}</h5>
-                                    <button className='btn-close' onClick={() => setSelected(null)} />
-                                </div>
-                                <div className='modal-body'>
-                                    <div className='row mb-3'>
-                                        <div className='col-6'>
-                                            <small className='text-muted'>Status</small>
-                                            <div><StatusBadge status={selected.status}/></div>
-                                        </div>
-                                        <div className='col-6'>
-                                            <small className='text-muted'>Category</small>
-                                            <div>{selected.category?.category_name}</div>
-                                        </div>
-                                    </div>
-
-                                    <div className='mb-3'>
-                                        <small className='text-muted'>Description</small>
-                                        <p>{selected.description}</p>
-                                    </div>
-
-                                    {selected.address && (
-                                        <div className='mb-3'>
-                                            <small className='text-muted'>Location</small>
-                                            <p> {selected.address}</p>
-                                        </div>
-                                    )}
-
-                                    {selected.department && (
-                                        <div className='mb-3'>
-                                            <small className='text-muted'>Assigned Department</small>
-                                            <p>{selected.department.department_name}</p>
-                                        </div>
-                                    )}
-
-                                    <div className='mb-3'>
-                                        <small className='text-muted'>Submitted On</small>
-                                        <p>{new Date(selected.created_at).toLocaleDateString('en-IN')}</p>
-                                    </div>
-                                </div>
-                                <div className='modal-footer'>
-                                    <button className='btn btn-secondary' onClick={() => setSelected(null)}>Close</button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )
-            }
-        </>
-     );
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }

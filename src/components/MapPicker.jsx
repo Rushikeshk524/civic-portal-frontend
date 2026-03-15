@@ -17,26 +17,27 @@ function ClickHandler({ onSelect }) {
       const lat = e.latlng.lat;
       const lng = e.latlng.lng;
       setPos([lat, lng]);
-      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-  .then(r => r.json())
-  .then(data => {
-    const a = data.address;
-    // Build address from most specific to least specific
-    const parts = [
-      a.road || a.pedestrian || a.footway,
-      a.village || a.suburb || a.neighbourhood || a.hamlet,
-      a.town || a.city || a.county,
-      a.state_district,
-      a.state,
-      a.postcode
-    ].filter(Boolean); // Remove undefined/null parts
 
-    const address = parts.join(', ');
-    onSelect(lat, lng, address || data.display_name);
-  })
-  .catch(() => {
-    onSelect(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`);
-  });
+      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
+        .then(r => r.json())
+        .then(data => {
+          const a = data.address;
+          const parts = [
+            a.road || a.pedestrian || a.footway,
+            a.village || a.suburb || a.neighbourhood || a.hamlet,
+            a.town || a.city || a.county,
+            a.state_district,
+            a.state,
+          ].filter(Boolean);
+
+          const area_name = parts.join(', ');
+          const pincode   = a.postcode || '';
+
+          onSelect(lat, lng, area_name, pincode);
+        })
+        .catch(() => {
+          onSelect(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`, '');
+        });
     }
   });
 
@@ -47,19 +48,19 @@ function ClickHandler({ onSelect }) {
 export default function MapPicker({ onLocationSelect }) {
   const [selectedAddress, setSelectedAddress] = useState('');
 
-  const handleSelect = (lat, lng, address) => {
-    setSelectedAddress(address);
-    onLocationSelect(lat, lng, address);
+  const handleSelect = (lat, lng, area_name, pincode) => {
+    setSelectedAddress(`${area_name}${pincode ? ' — ' + pincode : ''}`);
+    onLocationSelect(lat, lng, area_name, pincode);
   };
 
   return (
     <div>
       <p className='text-muted small mb-2'>
-        Click on the map to pin the exact issue location
+        📍 Click on the map to pin the exact issue location
       </p>
       <MapContainer
-        center={[20.5937, 78.9629]}
-        zoom={5}
+        center={[19.4609, 72.8160]}
+        zoom={12}
         style={{
           height: '350px',
           width: '100%',
@@ -75,8 +76,8 @@ export default function MapPicker({ onLocationSelect }) {
         <ClickHandler onSelect={handleSelect} />
       </MapContainer>
       {selectedAddress && (
-        <div className='mt-2 p-2 bg-light rounded small'>
-          <strong>Selected:</strong> {selectedAddress}
+        <div className='mt-2 p-2 bg-success bg-opacity-10 border border-success rounded small'>
+          <strong>📍 Selected:</strong> {selectedAddress}
         </div>
       )}
     </div>
