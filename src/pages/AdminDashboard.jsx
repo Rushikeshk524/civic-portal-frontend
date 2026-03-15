@@ -93,6 +93,7 @@ export default function AdminDashboard() {
                   <th>#</th>
                   <th>Title</th>
                   <th>Category</th>
+                  <th>Location</th>
                   <th>Submitted By</th>
                   <th>Status</th>
                   <th>Assign Dept</th>
@@ -109,6 +110,12 @@ export default function AdminDashboard() {
                       <small className='text-muted'>{c.description?.substring(0, 50)}...</small>
                     </td>
                     <td>{c.category?.category_name}</td>
+                    <td>
+                      {c.location
+                        ? `${c.location.area_name}${c.location.pincode ? ' - ' + c.location.pincode : ''}`
+                        : 'No location'
+                        }
+                    </td>
                     <td>{c.user?.full_name}</td>
                     <td><StatusBadge status={c.status} /></td>
                     <td>

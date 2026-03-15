@@ -1,85 +1,116 @@
-import { useState } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
-import L from 'leaflet';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../services/api';
+import Navbar from '../components/Navbar';
+import MapPicker from '../components/MapPicker';
 
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: 'https://unpkg.com/leaflet/dist/images/marker-icon-2x.png',
-  iconUrl:       'https://unpkg.com/leaflet/dist/images/marker-icon.png',
-  shadowUrl:     'https://unpkg.com/leaflet/dist/images/marker-shadow.png',
-});
+export default function ReportComplaint() {
+  const [form, setForm]             = useState({ title: '', description: '', category_id: '' });
+  const [locationData, setLocationData] = useState(null);
+  const [categories, setCategories] = useState([]);
+  const [error, setError]           = useState('');
+  const [loading, setLoading]       = useState(false);
+  const navigate = useNavigate();
 
-function ClickHandler({ onSelect }) {
-  const [pos, setPos] = useState(null);
+  useEffect(() => {
+    api.get('/categories').then(r => setCategories(r.data));
+  }, []);
 
-  useMapEvents({
-    click(e) {
-      const lat = e.latlng.lat;
-      const lng = e.latlng.lng;
-      setPos([lat, lng]);
+  const handleMapSelect = (lat, lng, area_name, pincode) => {
+    setLocationData({ latitude: lat, longitude: lng, area_name, pincode });
+  };
 
-      fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`)
-        .then(r => r.json())
-        .then(data => {
-          const a = data.address;
-          const parts = [
-            a.road || a.pedestrian || a.footway,
-            a.village || a.suburb || a.neighbourhood || a.hamlet,
-            a.town || a.city || a.county,
-            a.state_district,
-            a.state,
-          ].filter(Boolean);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      let location_id = null;
 
-          const area_name = parts.join(', ');
-          const pincode   = a.postcode || '';
+      if (locationData) {
+        const locRes = await api.post('/locations', locationData);
+        location_id = locRes.data.location_id;
+      }
 
-          onSelect(lat, lng, area_name, pincode);
-        })
-        .catch(() => {
-          onSelect(lat, lng, `${lat.toFixed(6)}, ${lng.toFixed(6)}`, '');
-        });
+      await api.post('/complaints', { ...form, location_id });
+      navigate('/track');
+    } catch (err) {
+      setError(err.response?.data?.message || 'Failed to submit complaint');
+      setLoading(false);
     }
-  });
-
-  if (!pos) return null;
-  return <Marker position={pos} />;
-}
-
-export default function MapPicker({ onLocationSelect }) {
-  const [selectedAddress, setSelectedAddress] = useState('');
-
-  const handleSelect = (lat, lng, area_name, pincode) => {
-    setSelectedAddress(`${area_name}${pincode ? ' — ' + pincode : ''}`);
-    onLocationSelect(lat, lng, area_name, pincode);
   };
 
   return (
-    <div>
-      <p className='text-muted small mb-2'>
-        📍 Click on the map to pin the exact issue location
-      </p>
-      <MapContainer
-        center={[19.4609, 72.8160]}
-        zoom={12}
-        style={{
-          height: '350px',
-          width: '100%',
-          borderRadius: '8px',
-          border: '1px solid #dee2e6',
-          cursor: 'crosshair'
-        }}
-      >
-        <TileLayer
-          url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          attribution='© OpenStreetMap contributors'
-        />
-        <ClickHandler onSelect={handleSelect} />
-      </MapContainer>
-      {selectedAddress && (
-        <div className='mt-2 p-2 bg-success bg-opacity-10 border border-success rounded small'>
-          <strong>📍 Selected:</strong> {selectedAddress}
+    <>
+      <Navbar />
+      <div className='container mt-4'>
+        <h2 className='mb-4'>Report a Civic Issue</h2>
+        {error && <div className='alert alert-danger'>{error}</div>}
+        <div className='row'>
+
+          {/* Form */}
+          <div className='col-md-5'>
+            <div className='card shadow-sm'>
+              <div className='card-body'>
+                <form onSubmit={handleSubmit}>
+                  <div className='mb-3'>
+                    <label className='form-label fw-bold'>Title *</label>
+                    <input type='text' className='form-control'
+                      placeholder='e.g. Large pothole near bus stop'
+                      onChange={e => setForm({...form, title: e.target.value})} />
+                  </div>
+
+                  <div className='mb-3'>
+                    <label className='form-label fw-bold'>Category *</label>
+                    <select className='form-select'
+                      onChange={e => setForm({...form, category_id: e.target.value})}>
+                      <option value=''>-- Select Category --</option>
+                      {categories.map(cat => (
+                        <option key={cat.category_id} value={cat.category_id}>
+                          {cat.category_name}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div className='mb-3'>
+                    <label className='form-label fw-bold'>Description *</label>
+                    <textarea className='form-control' rows={3}
+                      placeholder='Describe the issue in detail...'
+                      onChange={e => setForm({...form, description: e.target.value})} />
+                  </div>
+
+                  {locationData ? (
+                    <div className='mb-3 p-2 bg-success bg-opacity-10 border border-success rounded small'>
+                      ✅ Location pinned: {locationData.area_name}
+                      {locationData.pincode ? ` — ${locationData.pincode}` : ''}
+                    </div>
+                  ) : (
+                    <div className='mb-3 p-2 bg-warning bg-opacity-10 border border-warning rounded small'>
+                      ⚠️ No location pinned yet — click on the map to add
+                    </div>
+                  )}
+
+                  <button type='submit' className='btn btn-primary w-100' disabled={loading}>
+                    {loading ? 'Submitting...' : 'Submit Complaint'}
+                  </button>
+                </form>
+              </div>
+            </div>
+          </div>
+
+          {/* Map */}
+          <div className='col-md-7'>
+            <div className='card shadow-sm'>
+              <div className='card-body'>
+                <h6 className='card-title'>Pin Location on Map</h6>
+                <MapPicker onLocationSelect={handleMapSelect} />
+              </div>
+            </div>
+          </div>
+
         </div>
-      )}
-    </div>
+      </div>
+    </>
   );
 }
