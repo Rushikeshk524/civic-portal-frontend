@@ -1,0 +1,100 @@
+/* shared tokens — defined once here, inherited by all pages */
+:root {
+    --navy: #0C1B33;
+    --cobalt: #000080;
+    --gold: #FF9933;
+    --cream: #FDF8F2;
+    --mist: #EAF2EA;
+    --subtle: #5A6A80;
+    --border: rgba(12, 27, 51, 0.10);
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 5vw;
+    background: rgba(253, 248, 242, 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--border);
+}
+
+.navbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+
+.logo-box {
+    margin-left: 4px;
+    width: 38px;
+    height: 38px;
+    background: var(--gold);
+    border-radius: 7px;
+    display: grid;
+    place-items: center;
+}
+
+.logo-svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--gold);
+}
+
+.brand-name {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2.15rem;
+    color: var(--navy);
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.nav-link {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--subtle);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.nav-link:hover {
+    color: var(--navy);
+}
+
+.btn-navy {
+    background: var(--navy);
+    color: var(--cream);
+    border-radius: 6px;
+    padding: 0.5rem 1.2rem;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.2s;
+}
+
+.btn-navy:hover {
+    background: var(--cobalt);
+}
+
+@media (max-width: 640px) {
+    .nav-links a:not(.btn-navy) {
+        display: none;
+    }
+}
+
+.logo-box img {
+    width: 35px;
+    height: 35px;
+    object-fit: contain;
+    color: #EAF2EA;
+}

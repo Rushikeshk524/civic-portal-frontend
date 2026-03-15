@@ -95,7 +95,7 @@ export default function AdminDashboard() {
                   <th>Category</th>
                   <th>Location</th>
                   <th>Submitted By</th>
-                  <th>Status</th>
+                  
                   <th>Assign Dept</th>
                   <th>Actions</th>
                 </tr>
@@ -117,7 +117,6 @@ export default function AdminDashboard() {
                         }
                     </td>
                     <td>{c.user?.full_name}</td>
-                    <td><StatusBadge status={c.status} /></td>
                     <td>
                       <select
                         className='form-select form-select-sm'
