@@ -59,7 +59,7 @@ export default function Register() {
                                         </div>
                                         <div className='col-md-6 mb-3'>
                                             <label className='form-label'>Confirm Password</label>
-                                            <input type='password' className='form-control' required onCharge={e => setForm({...form, password_confirmation: e.target.value})} />
+                                            <input type='password' className='form-control' required onChange={e => setForm({...form, password_confirmation: e.target.value})} />
                                         </div>
                                     </div>
                                     <button type='submit' className='btn btn-success w-100' disabled={loading}>
