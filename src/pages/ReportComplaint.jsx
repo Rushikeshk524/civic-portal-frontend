@@ -27,7 +27,7 @@ export default function ReportComplaint() {
         setLoading(true);
         setError('');
         try {
-            await api.post('/comaplints', form);
+            await api.post('/complaints', form);
             navigate('/track');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to submit complaint');
