@@ -19,19 +19,15 @@ export default function ReportComplaint() {
     }, []);
 
     const handleMapSelect = (lat, lng, address) => {
-        setForm({ ...form, latitude: lat, longitude: lng, address });
+        setForm(prev => ({ ...prev, latitude: lat, longitude: lng, address }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!form.title || !form.description || !form.category_id) {
-            setError('Please fill in all required feilds');
-            return;
-        }
         setLoading(true);
         setError('');
         try {
-            await api.post('/complaints', form);
+            await api.post('/comaplints', form);
             navigate('/track');
         } catch (err) {
             setError(err.response?.data?.message || 'Failed to submit complaint');
