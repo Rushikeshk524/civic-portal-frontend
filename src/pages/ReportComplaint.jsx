@@ -6,12 +6,12 @@ import MapPicker from '../components/MapPicker';
 import ImageUpload from '../components/ImageUpload';
 
 export default function ReportComplaint() {
-  const [form, setForm]             = useState({ title: '', description: '', category_id: '' });
+  const [form, setForm]               = useState({ title: '', description: '', category_id: '' });
   const [locationData, setLocationData] = useState(null);
-  const [imageUrl, setImageUrl] = useState('');
-  const [categories, setCategories] = useState([]);
-  const [error, setError]           = useState('');
-  const [loading, setLoading]       = useState(false);
+  const [imageUrl, setImageUrl]         = useState('');
+  const [categories, setCategories]     = useState([]);
+  const [error, setError]               = useState('');
+  const [loading, setLoading]           = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -28,13 +28,17 @@ export default function ReportComplaint() {
     setError('');
     try {
       let location_id = null;
-
       if (locationData) {
         const locRes = await api.post('/locations', locationData);
         location_id = locRes.data.location_id;
       }
 
-      await api.post('/complaints', { ...form, location_id, image_url: imageUrl || null });
+      await api.post('/complaints', {
+        ...form,
+        location_id,
+        image_url: imageUrl || null
+      });
+
       navigate('/track');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit complaint');
@@ -82,7 +86,7 @@ export default function ReportComplaint() {
                       onChange={e => setForm({...form, description: e.target.value})} />
                   </div>
 
-                  {/*upload*/}
+                  {/* Image Upload */}
                   <div className='mb-3'>
                     <ImageUpload onUpload={url => setImageUrl(url)} />
                   </div>
