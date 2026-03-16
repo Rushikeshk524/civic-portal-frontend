@@ -33,7 +33,11 @@ export default function ReportComplaint() {
         const locRes = await api.post('/locations', locationData);
         location_id = locRes.data.location_id;
       }
-
+      console.log('Sending to API: ', {
+          ...form,
+          location_id,
+          image_url: imageUrl || null
+      });
       await api.post('/complaints', {
         ...form,
         location_id,
