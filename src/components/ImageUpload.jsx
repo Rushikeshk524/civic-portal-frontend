@@ -57,9 +57,6 @@ export default function ImageUpload({ onUpload }) {
 
             {loading && (
                 <div className='d-flex align-items-center gap-2 text-muted small mb-2'>
-                    <div className='spinner-border spinner-border-sm'>
-                        
-                    </div>
                 </div>
             )}
 
