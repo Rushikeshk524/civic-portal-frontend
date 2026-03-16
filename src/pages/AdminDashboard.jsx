@@ -117,7 +117,7 @@ export default function AdminDashboard() {
                       <strong>{c.title}</strong>
                       <br />
                       <small className='text-muted'>{c.description?.substring(0, 50)}...</small>
-                    {c.images && c.images.legth > 0 && (
+                    {c.images && c.images.length > 0 && (
                       <div className='mt-1'>
                         <img
                           src={c.images[0].image_url}
