@@ -40,6 +40,7 @@ export default function AdminDashboard() {
       await api.delete(`/admin/complaints/${id}`);
       loadAll();
     } catch (err) {
+      console.error('Delete error: ', err.response);
       alert('Failed to delete comaplint');
     }
   };
