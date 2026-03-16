@@ -34,6 +34,16 @@ export default function AdminDashboard() {
     loadAll();
   };
 
+  const deleteComplaint = async (id) => {
+    if (!window.confirm('Are you sure you want to delete this comaplint?')) return;
+    try {
+      await api.delete(`/admin/complaints/${id}`);
+      loadAll();
+    } catch (err) {
+      alert('Failed to delete comaplint');
+    }
+  };
+
   const filtered = filter === 'all'
     ? complaints
     : complaints.filter(c => c.status === filter);
@@ -95,7 +105,6 @@ export default function AdminDashboard() {
                   <th>Category</th>
                   <th>Location</th>
                   <th>Submitted By</th>
-                  
                   <th>Assign Dept</th>
                   <th>Actions</th>
                 </tr>
@@ -157,6 +166,11 @@ export default function AdminDashboard() {
                             Resolve
                           </button>
                         )}
+                        <button className='btn btn-sm btn-danger'
+                        onClick={() => deleteComplaint(c.complaint_id)}
+                        >
+                          Delete
+                        </button>
                       </div>
                     </td>
                   </tr>
