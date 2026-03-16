@@ -90,6 +90,18 @@ export default function TrackComplaint() {
                     })}
                   </p>
 
+                  {/*Image*/}
+                  {c.images && c.images.length > 0 && (
+                    <div className='mt-2'>
+                      <img  
+                        src={c.images[0].image_url}
+                        alt='Complaint'
+                        className='rounded border w-100'
+                        style={{ maxHeight: '160px', objectFit: 'cover' }}
+                      />
+                    </div>
+                  )}
+
                 </div>
               </div>
             </div>

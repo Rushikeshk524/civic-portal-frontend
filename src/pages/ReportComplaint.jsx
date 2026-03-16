@@ -3,10 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import api from '../services/api';
 import Navbar from '../components/Navbar';
 import MapPicker from '../components/MapPicker';
+import ImageUpload from '../components/ImageUpload';
 
 export default function ReportComplaint() {
   const [form, setForm]             = useState({ title: '', description: '', category_id: '' });
   const [locationData, setLocationData] = useState(null);
+  const [imageUrl, setImageUrl] = useState('');
   const [categories, setCategories] = useState([]);
   const [error, setError]           = useState('');
   const [loading, setLoading]       = useState(false);
@@ -32,7 +34,7 @@ export default function ReportComplaint() {
         location_id = locRes.data.location_id;
       }
 
-      await api.post('/complaints', { ...form, location_id });
+      await api.post('/complaints', { ...form, location_id, image_url: imageUrl || null });
       navigate('/track');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit complaint');
@@ -78,6 +80,11 @@ export default function ReportComplaint() {
                     <textarea className='form-control' rows={3}
                       placeholder='Describe the issue in detail...'
                       onChange={e => setForm({...form, description: e.target.value})} />
+                  </div>
+
+                  {/*upload*/}
+                  <div className='mb-3'>
+                    <ImageUpload onUpload={url => setImageUrl(url)} />
                   </div>
 
                   {locationData ? (
