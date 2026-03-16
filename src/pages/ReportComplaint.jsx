@@ -9,6 +9,7 @@ export default function ReportComplaint() {
   const [form, setForm]               = useState({ title: '', description: '', category_id: '' });
   const [locationData, setLocationData] = useState(null);
   const [imageUrl, setImageUrl]         = useState('');
+  const [uploading, setUploading] = useState(false);
   const [categories, setCategories]     = useState([]);
   const [error, setError]               = useState('');
   const [loading, setLoading]           = useState(false);
@@ -88,7 +89,10 @@ export default function ReportComplaint() {
 
                   {/* Image Upload */}
                   <div className='mb-3'>
-                    <ImageUpload onUpload={url => setImageUrl(url)} />
+                    <ImageUpload 
+                      onUpload={url => setImageUrl(url)}
+                      onUploadStart={() => setUploading(true)}
+                      onUploadEnd={() => setUploading(false)} />
                   </div>
 
                   {locationData ? (

@@ -3,7 +3,7 @@ import { useState } from 'react';
 const CLOUD_NAME   = 'dhgty3pol';
 const UPLOAD_PRESET = 'civic-portal-upload';
 
-export default function ImageUpload({ onUpload }) {
+export default function ImageUpload({ onUpload, onUploadStart, onUploadEnd }) {
   const [preview, setPreview]   = useState(null);
   const [loading, setLoading]   = useState(false);
   const [error, setError]       = useState('');
@@ -16,6 +16,7 @@ export default function ImageUpload({ onUpload }) {
     setPreview(URL.createObjectURL(file));
     setLoading(true);
     setError('');
+    onUploadStart?.();
 
     try {
       const formData = new FormData();
@@ -31,6 +32,7 @@ export default function ImageUpload({ onUpload }) {
 
       if (data.secure_url) {
         onUpload(data.secure_url); // Send URL to parent
+        onUploadEnd?.();
         setLoading(false);
       } else {
         setError('Upload failed — try again');
@@ -38,6 +40,7 @@ export default function ImageUpload({ onUpload }) {
       }
     } catch (err) {
       setError('Upload failed — check internet connection');
+      onUploadEnd?.();
       setLoading(false);
     }
   };
