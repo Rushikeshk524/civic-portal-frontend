@@ -56,7 +56,7 @@ export default function MapPicker({ onLocationSelect }) {
   return (
     <div>
       <p className='text-muted small mb-2'>
-        📍 Click on the map to pin the exact issue location
+         Click on the map to pin the exact issue location
       </p>
       <MapContainer
         center={[19.4609, 72.8160]}
@@ -71,15 +71,11 @@ export default function MapPicker({ onLocationSelect }) {
       >
         <TileLayer
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-          attribution='© OpenStreetMap contributors'
+          attribution='OpenStreetMap contributors'
         />
         <ClickHandler onSelect={handleSelect} />
       </MapContainer>
-      {selectedAddress && (
-        <div className='mt-2 p-2 bg-success bg-opacity-10 border border-success rounded small'>
-          <strong>📍 Selected:</strong> {selectedAddress}
-        </div>
-      )}
+      
     </div>
   );
 }

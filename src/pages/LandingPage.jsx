@@ -147,19 +147,7 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* ── FOOTER ── */}
       <footer className="footer">
-        <Link to="/" className="footer-brand">
-          <div className="logo-box">
-            <img src={logo} alt='logo'/>
-          </div>
-          <span className="brand-name" style={{ color: "rgba(255,255,255,0.7)" }}>CivicPortal</span>
-        </Link>
-        <div className="footer-links">
-          <a href="#">Privacy</a>
-          <a href="#">Terms</a>
-          <a href="#">Contact</a>
-        </div>
       </footer>
     </div>
   );

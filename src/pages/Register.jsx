@@ -33,7 +33,7 @@ export default function Register() {
       <div className='container mt-5'>
         <div className='row justify-content-center'>
           <div className='col-md-6'>
-            <div className='card shadow'>  {/* ✅ removed extra </div> */}
+            <div className='card shadow border border-dark rounded p-1'>
               <div className='card-body p-4'>
                 <h3 className='text-center mb-1'>Create Account</h3>
                 <p className='text-center text-muted mb-4'>Join Civic Portal today</p>
@@ -44,7 +44,7 @@ export default function Register() {
                     <input type='text' className='form-control' required
                       onChange={e => setForm({...form, full_name: e.target.value})} />
                   </div>
-                  <div className='mb-3'>  {/* ✅ was md-3 */}
+                  <div className='mb-3'>  
                     <label className='form-label'>Email</label>
                     <input type='email' className='form-control' required
                       onChange={e => setForm({...form, email: e.target.value})} />
@@ -66,12 +66,13 @@ export default function Register() {
                         onChange={e => setForm({...form, password_confirmation: e.target.value})} />
                     </div>
                   </div>
-                  <button type='submit' className='btn btn-success w-100' disabled={loading}>
+                  <br/>
+                  <button type='submit' className='btn btn-dark w-100' disabled={loading}>
                     {loading ? 'Creating account...' : 'Create Account'}
                   </button>
                 </form>
                 <p className='text-center mt-3 mb-0'>
-                  Already have an account? <Link to='/login'>Login</Link>
+                  Already have an account? <Link className='nb-link text-dark' to='/login'>Login</Link>
                 </p>
               </div>
             </div>

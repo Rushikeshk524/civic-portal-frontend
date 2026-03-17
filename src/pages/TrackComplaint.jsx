@@ -26,7 +26,7 @@ export default function TrackComplaint() {
 
         <div className='d-flex justify-content-between align-items-center mb-4'>
           <h2 className='mb-0'>My Complaints</h2>
-          <a href='/report' className='btn btn-primary btn-sm'>+ Report New Issue</a>
+          <a href='/report' className='btn btn-dark btn-sm'>+ Report New Issue</a>
         </div>
 
         {loading && (
@@ -39,7 +39,6 @@ export default function TrackComplaint() {
         {!loading && complaints.length === 0 && (
           <div className='text-center mt-5'>
             <p className='text-muted fs-5'>No complaints submitted yet.</p>
-            <a href='/report' className='btn btn-primary mt-2'>Report an Issue</a>
           </div>
         )}
 

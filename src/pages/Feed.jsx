@@ -62,7 +62,7 @@ export default function Feed() {
     <>
       <Navbar />
       <div className='container mt-4' style={{ maxWidth: '700px' }}>
-        <h2 className='mb-4'>Community Feed</h2>
+        <h2 className='mb-4 text-center'>Community Feed</h2>
 
         {loading && (
           <div className='text-center mt-5'>
@@ -89,7 +89,7 @@ export default function Feed() {
               <div className='d-flex justify-content-between align-items-start mb-2'>
                 <div className='d-flex align-items-center gap-2'>
                   <div
-                    className='rounded-circle bg-primary text-white d-flex align-items-center justify-content-center fw-bold'
+                    className='rounded-circle bg-dark text-white d-flex align-items-center justify-content-center fw-bold'
                     style={{ width: '38px', height: '38px', fontSize: '1rem', flexShrink: 0 }}
                   >
                     {c.user?.full_name?.charAt(0).toUpperCase()}
@@ -113,16 +113,16 @@ export default function Feed() {
               {/* Category + Department + Location */}
               <div className='d-flex flex-wrap gap-2 mb-2'>
                 <span className='badge bg-light text-dark border'>
-                  📁 {c.category?.category_name}
+                   {c.category?.category_name}
                 </span>
                 {c.department && (
                   <span className='badge bg-light text-dark border'>
-                    🏢 {c.department.department_name}
+                    {c.department.department_name}
                   </span>
                 )}
                 {c.location && (
                   <span className='badge bg-light text-dark border'>
-                    📍 {c.location.area_name}
+                     {c.location.area_name}
                     {c.location.pincode ? ` — ${c.location.pincode}` : ''}
                   </span>
                 )}
@@ -141,16 +141,16 @@ export default function Feed() {
               {/* Like + Comment buttons */}
               <div className='d-flex gap-3 mt-2 pt-2 border-top'>
                 <button
-                  className={`btn btn-sm ${c.liked_by_me ? 'btn-primary' : 'btn-outline-primary'}`}
+                  className={`btn btn-sm ${c.liked_by_me ? 'btn-secondary' : 'btn-outline-secondary'}`}
                   onClick={() => handleLike(c.complaint_id)}
                 >
-                  👍 {c.likes_count || 0} {c.liked_by_me ? 'Liked' : 'Like'}
+                  {c.likes_count || 0} {c.liked_by_me ? 'Liked' : 'Like'}
                 </button>
                 <button
                   className='btn btn-sm btn-outline-secondary'
                   onClick={() => toggleComments(c.complaint_id)}
                 >
-                  💬 {c.comments_count || 0} Comments
+                   {c.comments_count || 0} Comments
                 </button>
               </div>
 
@@ -201,7 +201,7 @@ export default function Feed() {
                       }}
                     />
                     <button
-                      className='btn btn-sm btn-primary'
+                      className='btn btn-sm btn-dark'
                       onClick={() => handleComment(c.complaint_id)}
                     >
                       Post

@@ -98,19 +98,19 @@ export default function ReportComplaint() {
                       onUploadStart={() => setUploading(true)}
                       onUploadEnd={() => setUploading(false)} />
                   </div>
-
+                    <br/> 
                   {locationData ? (
                     <div className='mb-3 p-2 bg-success bg-opacity-10 border border-success rounded small'>
-                      ✅ Location pinned: {locationData.area_name}
+                      Location pinned: {locationData.area_name}
                       {locationData.pincode ? ` — ${locationData.pincode}` : ''}
                     </div>
                   ) : (
                     <div className='mb-3 p-2 bg-warning bg-opacity-10 border border-warning rounded small'>
-                      ⚠️ No location pinned yet — click on the map to add
+                       No location pinned yet — click on the map to add
                     </div>
                   )}
 
-                  <button type='submit' className='btn btn-primary w-100' disabled={loading}>
+                  <button type='submit' className='btn btn-success w-100' disabled={loading}>
                     {loading ? 'Submitting...' : 'Submit Complaint'}
                   </button>
                 </form>

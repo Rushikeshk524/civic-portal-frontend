@@ -66,7 +66,7 @@ export default function AdminMap() {
             {['all', 'pending', 'in_progress', 'resolved'].map(f => (
               <button
                 key={f}
-                className={`btn btn-sm ${filter === f ? 'btn-primary' : 'btn-outline-primary'}`}
+                className={`btn btn-sm ${filter === f ? 'btn-dark' : 'btn-outline-dark'}`}
                 onClick={() => setFilter(f)}
               >
                 {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
@@ -96,48 +96,50 @@ export default function AdminMap() {
         )}
 
         {!loading && withLocation.length > 0 && (
-          <MapContainer
-            center={[19.4609, 72.8160]}
-            zoom={12}
-            style={{ height: 'calc(100vh - 220px)', width: '100%' }}
-          >
-            <TileLayer
-              url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
-              attribution='© OpenStreetMap contributors'
-            />
-            {filtered.map(c => (
-              <Marker
-                key={c.complaint_id}
-                position={[
-                  parseFloat(c.location.latitude),
-                  parseFloat(c.location.longitude)
-                ]}
-                icon={icons[c.status] || icons.pending}
-              >
-                <Popup>
-                  <div style={{ minWidth: '200px' }}>
-                    <strong>{c.title}</strong>
-                    <div className='my-1'>
-                      <StatusBadge status={c.status} />
+          <div className='container-xl py-2 border border-dark border-2'>
+            <MapContainer
+              center={[19.4609, 72.8160]}
+              zoom={12}
+              style={{ height: '200px', width: '100%' }}
+            >
+              <TileLayer
+                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+                attribution='OpenStreetMap contributors'
+              />
+              {filtered.map(c => (
+                <Marker
+                  key={c.complaint_id}
+                  position={[
+                    parseFloat(c.location.latitude),
+                    parseFloat(c.location.longitude)
+                  ]}
+                  icon={icons[c.status] || icons.pending}
+                >
+                  <Popup>
+                    <div style={{ minWidth: '200px' }}>
+                      <strong>{c.title}</strong>
+                      <div className='my-1'>
+                        <StatusBadge status={c.status} />
+                      </div>
+                      <p className='mb-1 small'>
+                         Issue: {c.category?.category_name}
+                      </p>
+                      <p className='mb-1 small'>
+                         Author: {c.user?.full_name}
+                      </p>
+                      <p className='mb-1 small'>
+                         Department: {c.department?.department_name || 'Not assigned'}
+                      </p>
+                      <p className='mb-0 small'>
+                         {c.location?.area_name}
+                        {c.location?.pincode ? ` — ${c.location.pincode}` : ''}
+                      </p>
                     </div>
-                    <p className='mb-1 small'>
-                       Issue: {c.category?.category_name}
-                    </p>
-                    <p className='mb-1 small'>
-                       Author: {c.user?.full_name}
-                    </p>
-                    <p className='mb-1 small'>
-                       Department: {c.department?.department_name || 'Not assigned'}
-                    </p>
-                    <p className='mb-0 small'>
-                       {c.location?.area_name}
-                      {c.location?.pincode ? ` — ${c.location.pincode}` : ''}
-                    </p>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-          </MapContainer>
+                  </Popup>
+                </Marker>
+              ))}
+            </MapContainer>
+          </div>
         )}
       </div>
     </>

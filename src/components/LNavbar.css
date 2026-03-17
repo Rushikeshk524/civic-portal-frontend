@@ -32,7 +32,7 @@
 }
 
 .logo-box {
-    margin-left: 4px;
+    margin-left: 50px;
     width: 38px;
     height: 38px;
     background: var(--gold);
@@ -80,6 +80,7 @@
     font-weight: 600;
     text-decoration: none;
     transition: background 0.2s;
+    margin-right: 10px;
 }
 
 .btn-navy:hover {
@@ -95,6 +96,7 @@
 .logo-box img {
     width: 35px;
     height: 35px;
+    margin-left: ;
     object-fit: contain;
     color: #EAF2EA;
 }

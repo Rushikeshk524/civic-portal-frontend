@@ -67,7 +67,6 @@ export default function AdminDashboard() {
               <div
                 className={`card ${s.color} text-white text-center p-3`}
                 style={{ cursor: 'pointer' }}
-                onClick={() => setFilter(s.filter)}
               >
                 <h2 className='mb-0'>{s.val}</h2>
                 <small>{s.label}</small>
@@ -82,7 +81,7 @@ export default function AdminDashboard() {
             {['all', 'pending', 'in_progress', 'resolved'].map(f => (
               <button
                 key={f}
-                className={`btn btn-sm ${filter === f ? 'btn-primary' : 'btn-outline-primary'}`}
+                className={`btn btn-sm ${filter === f ? 'btn-dark' : 'btn-outline-dark'}`}
                 onClick={() => setFilter(f)}
               >
                 {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
@@ -98,7 +97,7 @@ export default function AdminDashboard() {
           <div className='alert alert-info'>No complaints found.</div>
         ) : (
           <div className='table-responsive'>
-            <table className='table table-hover align-middle'>
+            <table className='table table-hover align-middle border border-dark'>
               <thead className='table-dark'>
                 <tr>
                   <th>#</th>
