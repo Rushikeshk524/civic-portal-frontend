@@ -22,6 +22,9 @@ export default function Navbar(){
                     {user ? (
                         <>
                             {!isAdmin && <Link className='nav-link text-white' to='/report'>Report Issue</Link>}
+                            {!isAdmin && <Link className='nav-link text-white' to='/feed'>Community Feed</Link>}
+{!isAdmin && <Link className='nav-link text-white' to='/report'>Report Issue</Link>}
+{!isAdmin && <Link className='nav-link text-white' to='/track'>My Complaints</Link>}
                             {!isAdmin && <Link className='nav-link text-white' to='/track'>My Complaints</Link>}
                             {isAdmin && <Link className='navlink text-white' to='/admin'>DashBoard</Link>}
                             {isAdmin && <Link className='nav-link text-white' to='/admin/map'>Map View</Link>}
