@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import Home            from './pages/Home';
+import LandingPage from './pages/LandingPage';
 import Login           from './pages/Login';
 import Register        from './pages/Register';
 import AdminDashboard  from './pages/AdminDashboard';
@@ -16,7 +16,7 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path='/'          element={<Home />} />
+        <Route path='/'          element={<LandingPage/>} />
         <Route path='/login'     element={<Login />} />
         <Route path='/register'  element={<Register />} />
         <Route path='/feed'      element={<PrivateRoute><Feed /></PrivateRoute>} />
