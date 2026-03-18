@@ -10,7 +10,7 @@ export default function LNavbar() {
     <nav className="lnav">
       <Link to="/" className="lnav-brand">
         <img src={logo} className="lnav-logo" alt="logo" />
-        <span className="lnav-name">Civic<span>Portal</span></span>
+        <span className="lnav-name">Public<span>Watch</span></span>
       </Link>
 
       <div className="lnav-links">
