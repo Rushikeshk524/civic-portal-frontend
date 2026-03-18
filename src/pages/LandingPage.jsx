@@ -39,7 +39,7 @@ export default function LandingPage() {
       <section className="mission" id="mission">
         <div className="container">
           <p className="section-label">Our Mission</p>
-          <h2>Why CivicPortal exists</h2>
+          <h2>Why Public Watch exists</h2>
           <div className="mission-grid">
             <blockquote className="mission-quote">
               "Democracy works best when people can participate — and

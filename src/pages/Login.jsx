@@ -30,7 +30,7 @@ export default function Login() {
             <div className='login-left'>
                 <span className='login-left-bg'>01</span>
                 <Link to='/' className='login-left-brand'>
-                    Civic<span>Portal</span>
+                    Public<span>Watch</span>
                 </Link>
                 <div className='login-left-copy'>
                     <h2>Report issues. <em>Drive change.</em></h2>
