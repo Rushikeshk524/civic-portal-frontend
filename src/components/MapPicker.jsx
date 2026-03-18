@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
+import './MapPicker.css';
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -54,20 +55,14 @@ export default function MapPicker({ onLocationSelect }) {
   };
 
   return (
-    <div>
-      <p className='text-muted small mb-2'>
-         Click on the map to pin the exact issue location
+    <div className='map-picker'>
+      <p className='map-hint'>
+        Click on the map to pin the exact issue location
       </p>
       <MapContainer
         center={[19.4609, 72.8160]}
         zoom={12}
-        style={{
-          height: '350px',
-          width: '100%',
-          borderRadius: '8px',
-          border: '1px solid #dee2e6',
-          cursor: 'crosshair'
-        }}
+        style={{ height: '350px', width: '100%', borderRadius: '8px' }}
       >
         <TileLayer
           url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
@@ -75,7 +70,6 @@ export default function MapPicker({ onLocationSelect }) {
         />
         <ClickHandler onSelect={handleSelect} />
       </MapContainer>
-      
     </div>
   );
 }

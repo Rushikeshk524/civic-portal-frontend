@@ -1,0 +1,106 @@
+/* TrackComplaint.css */
+
+.track-hd {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.track-hd h2 {
+  font-size: clamp(1.4rem,3vw,2rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 2px;
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 12px;
+}
+
+.track-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 20px;
+  transition: border-color 0.18s, transform 0.2s;
+  animation: fadeUp 0.35s var(--ease-out) both;
+  position: relative;
+  overflow: hidden;
+}
+.track-card:hover { border-color: var(--border-md); transform: translateY(-2px); }
+.track-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--tc-color, var(--gray-4));
+}
+
+.track-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+.track-card-id {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--gray-3);
+}
+.track-card-title {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.track-card-desc {
+  font-size: 0.835rem;
+  color: var(--gray-3);
+  line-height: 1.6;
+  margin-bottom: 12px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.track-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 10px;
+}
+.track-card-img {
+  width: 100%;
+  height: 130px;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  margin-bottom: 10px;
+}
+.track-card-date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--gray-3);
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  margin-top: 6px;
+}
+
+.track-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+.track-empty h4 {
+  font-size: 1.2rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--gray-2);
+  margin-bottom: 8px;
+}
+.track-empty p { color: var(--gray-3); font-size: 0.875rem; }

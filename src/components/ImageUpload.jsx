@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import './ImageUpload.css';
 
 const CLOUD_NAME   = 'dhgty3pol';
 const UPLOAD_PRESET = 'civic-portal-upload';
@@ -12,7 +13,6 @@ export default function ImageUpload({ onUpload, onUploadStart, onUploadEnd }) {
     const file = e.target.files[0];
     if (!file) return;
 
-    // Show preview immediately
     setPreview(URL.createObjectURL(file));
     setLoading(true);
     setError('');
@@ -31,7 +31,7 @@ export default function ImageUpload({ onUpload, onUploadStart, onUploadEnd }) {
       const data = await res.json();
 
       if (data.secure_url) {
-        onUpload(data.secure_url); // Send URL to parent
+        onUpload(data.secure_url);
         onUploadEnd?.();
         setLoading(false);
       } else {
@@ -47,37 +47,35 @@ export default function ImageUpload({ onUpload, onUploadStart, onUploadEnd }) {
 
   return (
     <div>
-      <label className='form-label fw-bold'>
-        Photo <span className='text-muted fw-normal'>(optional)</span>
+      <label className='img-upload-label'>
+        Photo <span>(optional)</span>
       </label>
 
       <input
         type='file'
-        className='form-control mb-2'
+        className='img-upload-input'
         accept='image/*'
         onChange={handleFile}
       />
 
       {loading && (
-        <div className='d-flex align-items-center gap-2 text-muted small mb-2'>
-          <div className='spinner-border spinner-border-sm' />
+        <div className='img-upload-spinner'>
+          <span className='spinner-sm' />
           Uploading image...
         </div>
       )}
 
       {error && (
-        <div className='alert alert-danger py-2 small'>{error}</div>
+        <div className='alert alert-error'>{error}</div>
       )}
 
       {preview && !loading && (
-        <div className='mt-2'>
+        <div className='img-upload-preview'>
           <img
             src={preview}
             alt='Preview'
-            className='rounded border'
-            style={{ width: '100%', maxHeight: '200px', objectFit: 'cover' }}
           />
-          <small className='text-success d-block mt-1'>✅ Image uploaded successfully</small>
+          <span className='img-upload-success'>✓ Image uploaded successfully</span>
         </div>
       )}
     </div>

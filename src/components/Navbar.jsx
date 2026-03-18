@@ -16,14 +16,14 @@ export default function Navbar() {
     };
 
     return (
-        <nav className='nb-nav'>
+        <nav className='nb'>
             {/* Brand — Left */}
             <Link to='/' className='nb-brand'>
-                    Issue Bridge
+                IssueBridge
             </Link>
 
             {/* Nav Links — Center */}
-            <div className='nb-center-links'>
+            <div className='nb-links'>
                 {user && !isAdmin && (
                     <>
                         <Link to='/report' className='nb-link'>Report Issue</Link>
@@ -43,15 +43,15 @@ export default function Navbar() {
             <div className='nb-right'>
                 {user ? (
                     <>
-                        <span className='nb-welcome-badge'>
-                            Welcome, <span className='nb-welcome-name'>{user.full_name?.split(' ')[0]}</span>
+                        <span className='nb-user'>
+                            Welcome, <strong>{user.full_name?.split(' ')[0]}</strong>
                         </span>
-                        <button className='nb-logout-btn' onClick={handleLogout}>Logout</button>
+                        <button className='nb-logout' onClick={handleLogout}>Logout</button>
                     </>
                 ) : (
                     <>
-                        <Link to='/login' className='nb-login-btn'>Login</Link>
-                        <Link to='/register' className='nb-register-btn'>Register</Link>
+                        <Link to='/login' className='nb-auth-link'>Login</Link>
+                        <Link to='/register' className='nb-auth-link-primary'>Register</Link>
                     </>
                 )}
             </div>

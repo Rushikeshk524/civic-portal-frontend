@@ -1,13 +1,15 @@
+import './StatusBadge.css';
+
 export default function StatusBadge({ status }) {
-    const config = {
-        pending: {label: 'Pending', cls: 'bg=secondary'},
-        in_progress: {labe: 'In Progress', cls: 'bg-warning text-dark'},
-        resolved: {loabel: 'Resolved', cls: 'bg-success' },
+    const labels = {
+        pending:     'Pending',
+        in_progress: 'In Progress',
+        resolved:    'Resolved',
     };
 
-    const badge = config[status] || {label: status, cls: 'bg-secondary' };
-    
+    const label = labels[status] || status;
+
     return (
-        <span className={`badge ${badge.cls}`}>{badge.label}</span>
+        <span className={`badge badge-${status}`}>{label}</span>
     );
 }

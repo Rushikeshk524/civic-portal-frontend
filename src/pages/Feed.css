@@ -1,0 +1,196 @@
+/* Feed.css */
+
+.feed-wrap { max-width: 640px; margin: 0 auto; }
+
+.feed-hd {
+  margin-bottom: 32px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.feed-hd h2 {
+  font-size: clamp(1.4rem,3vw,2rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+/* Card */
+.feed-card {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  padding: 22px;
+  margin-bottom: 14px;
+  transition: border-color 0.18s;
+  animation: fadeUp 0.3s var(--ease-out) both;
+  position: relative;
+}
+.feed-card:hover { border-color: var(--border-md); }
+
+/* status stripe on left */
+.feed-card::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 16px; bottom: 16px;
+  width: 2px;
+  background: var(--fc-color, var(--gray-4));
+  border-radius: 0 1px 1px 0;
+}
+
+.feed-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.feed-author {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.feed-av {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--surface-4);
+  border: 1px solid var(--border-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--lime);
+  flex-shrink: 0;
+}
+.feed-author-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--white);
+  letter-spacing: -0.01em;
+  display: block;
+}
+.feed-date {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  color: var(--gray-3);
+  display: block;
+}
+
+.feed-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.feed-desc {
+  font-size: 0.84rem;
+  color: var(--gray-3);
+  line-height: 1.65;
+  margin-bottom: 12px;
+}
+
+.feed-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-bottom: 12px;
+}
+
+.feed-img {
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+  margin-bottom: 12px;
+}
+
+.feed-bar {
+  display: flex;
+  gap: 6px;
+  padding-top: 12px;
+  border-top: 1px solid var(--border);
+}
+.feed-btn {
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 600;
+  height: 30px;
+  padding: 0 12px;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-md);
+  background: var(--surface-2);
+  color: var(--gray-2);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.feed-btn:hover { background: var(--surface-3); color: var(--white); border-color: rgba(255,255,255,0.18); }
+.feed-btn.liked { background: rgba(198,241,53,0.1); color: var(--lime); border-color: var(--lime-border); }
+
+/* Comments */
+.feed-comments { margin-top: 14px; }
+.feed-cmt {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+.feed-cmt-av {
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  background: var(--surface-4);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--gray-2);
+  flex-shrink: 0;
+}
+.feed-cmt-body {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  border-radius: 2px var(--r-md) var(--r-md) var(--r-md);
+  padding: 8px 12px;
+  flex: 1;
+}
+.feed-cmt-name {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--gray-2);
+  margin-bottom: 2px;
+  display: block;
+}
+.feed-cmt-text {
+  font-size: 0.83rem;
+  color: var(--gray-1);
+  line-height: 1.5;
+}
+.feed-cmt-row {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+.feed-post-btn {
+  height: 38px;
+  padding: 0 16px;
+  background: var(--lime);
+  color: var(--black);
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--r-md);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.feed-post-btn:hover { background: #d4f560; }
+
+.feed-empty {
+  text-align: center;
+  padding: 60px 20px;
+}

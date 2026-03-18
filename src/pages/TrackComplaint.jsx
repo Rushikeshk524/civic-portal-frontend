@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../services/api';
 import Navbar from '../components/Navbar';
 import StatusBadge from '../components/StatusBadge';
+import './TrackComplaint.css';
 
 export default function TrackComplaint() {
   const [complaints, setComplaints] = useState([]);
@@ -13,98 +14,83 @@ export default function TrackComplaint() {
       .catch(() => setLoading(false));
   }, []);
 
-  const borderColor = (status) => {
-    if (status === 'resolved')    return '#198754';
-    if (status === 'in_progress') return '#ffc107';
-    return '#6c757d';
+  const statusColor = (status) => {
+    if (status === 'resolved')    return 'var(--green)';
+    if (status === 'in_progress') return 'var(--amber)';
+    return 'var(--gray-4)';
   };
 
   return (
     <>
       <Navbar />
-      <div className='container mt-4'>
-
-        <div className='d-flex justify-content-between align-items-center mb-4'>
-          <h2 className='mb-0'>My Complaints</h2>
-          <a href='/report' className='btn btn-dark btn-sm'>+ Report New Issue</a>
-        </div>
-
-        {loading && (
-          <div className='text-center mt-5'>
-            <div className='spinner-border text-primary' />
-            <p className='mt-2 text-muted'>Loading...</p>
+      <div className='pw-page'>
+        <div className='pw-container'>
+          <div className='track-hd'>
+            <div>
+              <div className='section-label'>My Complaints</div>
+              <h2>My Complaints</h2>
+            </div>
+            <a href='/report' className='btn btn-lime btn-sm'>+ Report New Issue</a>
           </div>
-        )}
 
-        {!loading && complaints.length === 0 && (
-          <div className='text-center mt-5'>
-            <p className='text-muted fs-5'>No complaints submitted yet.</p>
-          </div>
-        )}
+          {loading && (
+            <div className='loading-center'>
+              <div className='spinner' />
+              <span>Loading...</span>
+            </div>
+          )}
 
-        <div className='row'>
-          {complaints.map(c => (
-            <div key={c.complaint_id} className='col-md-6 mb-3'>
+          {!loading && complaints.length === 0 && (
+            <div className='track-empty'>
+              <h4>No complaints submitted yet.</h4>
+              <p>Start by reporting a civic issue in your area.</p>
+            </div>
+          )}
+
+          <div className='track-grid'>
+            {complaints.map(c => (
               <div
-                className='card shadow-sm h-100'
-                style={{ borderLeft: `4px solid ${borderColor(c.status)}` }}
+                key={c.complaint_id}
+                className='track-card'
+                style={{ '--tc-color': statusColor(c.status) }}
               >
-                <div className='card-body'>
+                <div className='track-card-top'>
+                  <span className='track-card-id'>#{c.complaint_id}</span>
+                  <StatusBadge status={c.status} />
+                </div>
 
-                  {/* Title + Status */}
-                  <div className='d-flex justify-content-between align-items-start mb-2'>
-                    <h6 className='card-title mb-0 me-2'>{c.title}</h6>
-                    <StatusBadge status={c.status} />
-                  </div>
+                <div className='track-card-title'>{c.title}</div>
+                <div className='track-card-desc'>
+                  {c.description?.substring(0, 80)}...
+                </div>
 
-                  {/* Description */}
-                  <p className='small text-muted mb-2'>
-                    {c.description?.substring(0, 80)}...
-                  </p>
-
-                  {/* Category */}
-                  <p className='small mb-1'>
-                    📁 <strong>{c.category?.category_name || 'N/A'}</strong>
-                  </p>
-
-                  {/* Department */}
-                  <p className='small mb-1'>
-                    🏢 <strong>{c.department?.department_name || 'Not assigned yet'}</strong>
-                  </p>
-
-                  {/* Location */}
-                  <p className='small mb-1'>
-                    📍 <strong>
-                      {c.location
-                        ? `${c.location.area_name}${c.location.pincode ? ' — ' + c.location.pincode : ''}`
-                        : 'No location provided'
-                      }
-                    </strong>
-                  </p>
-
-                  {/* Date */}
-                  <p className='small text-muted mb-0 mt-2'>
-                    🗓️ {new Date(c.created_at).toLocaleDateString('en-IN', {
-                      day: 'numeric', month: 'long', year: 'numeric'
-                    })}
-                  </p>
-
-                  {/*Image*/}
-                  {c.images && c.images.length > 0 && (
-                    <div className='mt-2'>
-                      <img  
-                        src={c.images[0].image_url}
-                        alt='Complaint'
-                        className='rounded border w-100'
-                        style={{ maxHeight: '160px', objectFit: 'cover' }}
-                      />
-                    </div>
+                <div className='track-chips'>
+                  {c.category && <span className='chip'>📁 {c.category.category_name}</span>}
+                  {c.department && <span className='chip'>🏢 {c.department.department_name}</span>}
+                  {c.location && (
+                    <span className='chip'>
+                      📍 {c.location.area_name}{c.location.pincode ? ` — ${c.location.pincode}` : ''}
+                    </span>
                   )}
+                  {!c.department && <span className='chip'>🏢 Not assigned yet</span>}
+                </div>
 
+                {c.images && c.images.length > 0 && (
+                  <img
+                    src={c.images[0].image_url}
+                    alt='Complaint'
+                    className='track-card-img'
+                  />
+                )}
+
+                <div className='track-card-date'>
+                  🗓️ {new Date(c.created_at).toLocaleDateString('en-IN', {
+                    day: 'numeric', month: 'long', year: 'numeric'
+                  })}
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </>

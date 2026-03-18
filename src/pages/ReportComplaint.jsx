@@ -4,6 +4,7 @@ import api from '../services/api';
 import Navbar from '../components/Navbar';
 import MapPicker from '../components/MapPicker';
 import ImageUpload from '../components/ImageUpload';
+import './ReportComplaint.css';
 
 export default function ReportComplaint() {
   const [form, setForm]               = useState({ title: '', description: '', category_id: '' });
@@ -33,17 +34,11 @@ export default function ReportComplaint() {
         const locRes = await api.post('/locations', locationData);
         location_id = locRes.data.location_id;
       }
-      console.log('Sending to API: ', {
-          ...form,
-          location_id,
-          image_url: imageUrl || null
-      });
       await api.post('/complaints', {
         ...form,
         location_id,
         image_url: imageUrl || null
       });
-
       navigate('/track');
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to submit complaint');
@@ -54,80 +49,76 @@ export default function ReportComplaint() {
   return (
     <>
       <Navbar />
-      <div className='container mt-4'>
-        <h2 className='mb-4'>Report a Civic Issue</h2>
-        {error && <div className='alert alert-danger'>{error}</div>}
-        <div className='row'>
+      <div className='pw-page'>
+        <div className='pw-container'>
+          <div className='section-label'>New Complaint</div>
+          <h2 style={{ marginBottom: '28px', fontSize: 'clamp(1.4rem,3vw,2rem)', letterSpacing:'-0.03em' }}>
+            Report a Civic Issue
+          </h2>
 
-          {/* Form */}
-          <div className='col-md-5'>
-            <div className='card shadow-sm'>
-              <div className='card-body'>
-                <form onSubmit={handleSubmit}>
-                  <div className='mb-3'>
-                    <label className='form-label fw-bold'>Title *</label>
-                    <input type='text' className='form-control'
-                      placeholder='e.g. Large pothole near bus stop'
-                      onChange={e => setForm({...form, title: e.target.value})} />
+          {error && <div className='alert alert-error'>{error}</div>}
+
+          <div className='report-layout'>
+            {/* Form */}
+            <div className='report-panel'>
+              <form onSubmit={handleSubmit}>
+                <div className='field'>
+                  <label className='label'>Title *</label>
+                  <input type='text' className='input'
+                    placeholder='e.g. Large pothole near bus stop'
+                    onChange={e => setForm({...form, title: e.target.value})} />
+                </div>
+
+                <div className='field'>
+                  <label className='label'>Category *</label>
+                  <select className='select'
+                    onChange={e => setForm({...form, category_id: e.target.value})}>
+                    <option value=''>-- Select Category --</option>
+                    {categories.map(cat => (
+                      <option key={cat.category_id} value={cat.category_id}>
+                        {cat.category_name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className='field'>
+                  <label className='label'>Description *</label>
+                  <textarea className='input' rows={3}
+                    placeholder='Describe the issue in detail...'
+                    onChange={e => setForm({...form, description: e.target.value})} />
+                </div>
+
+                <div className='field'>
+                  <ImageUpload
+                    onUpload={url => setImageUrl(url)}
+                    onUploadStart={() => setUploading(true)}
+                    onUploadEnd={() => setUploading(false)} />
+                </div>
+
+                {locationData ? (
+                  <div className='loc-pin-ok'>
+                    Location pinned: {locationData.area_name}
+                    {locationData.pincode ? ` — ${locationData.pincode}` : ''}
                   </div>
-
-                  <div className='mb-3'>
-                    <label className='form-label fw-bold'>Category *</label>
-                    <select className='form-select'
-                      onChange={e => setForm({...form, category_id: e.target.value})}>
-                      <option value=''>-- Select Category --</option>
-                      {categories.map(cat => (
-                        <option key={cat.category_id} value={cat.category_id}>
-                          {cat.category_name}
-                        </option>
-                      ))}
-                    </select>
+                ) : (
+                  <div className='loc-pin-warn'>
+                    No location pinned yet — click on the map to add
                   </div>
+                )}
 
-                  <div className='mb-3'>
-                    <label className='form-label fw-bold'>Description *</label>
-                    <textarea className='form-control' rows={3}
-                      placeholder='Describe the issue in detail...'
-                      onChange={e => setForm({...form, description: e.target.value})} />
-                  </div>
+                <button type='submit' className='report-submit' disabled={loading || uploading}>
+                  {loading ? 'Submitting...' : 'Submit Complaint'}
+                </button>
+              </form>
+            </div>
 
-                  {/* Image Upload */}
-                  <div className='mb-3'>
-                    <ImageUpload 
-                      onUpload={url => setImageUrl(url)}
-                      onUploadStart={() => setUploading(true)}
-                      onUploadEnd={() => setUploading(false)} />
-                  </div>
-                    <br/> 
-                  {locationData ? (
-                    <div className='mb-3 p-2 bg-success bg-opacity-10 border border-success rounded small'>
-                      Location pinned: {locationData.area_name}
-                      {locationData.pincode ? ` — ${locationData.pincode}` : ''}
-                    </div>
-                  ) : (
-                    <div className='mb-3 p-2 bg-warning bg-opacity-10 border border-warning rounded small'>
-                       No location pinned yet — click on the map to add
-                    </div>
-                  )}
-
-                  <button type='submit' className='btn btn-success w-100' disabled={loading}>
-                    {loading ? 'Submitting...' : 'Submit Complaint'}
-                  </button>
-                </form>
-              </div>
+            {/* Map */}
+            <div className='report-map-panel'>
+              <h6>Pin Location on Map</h6>
+              <MapPicker onLocationSelect={handleMapSelect} />
             </div>
           </div>
-
-          {/* Map */}
-          <div className='col-md-7'>
-            <div className='card shadow-sm'>
-              <div className='card-body'>
-                <h6 className='card-title'>Pin Location on Map</h6>
-                <MapPicker onLocationSelect={handleMapSelect} />
-              </div>
-            </div>
-          </div>
-
         </div>
       </div>
     </>

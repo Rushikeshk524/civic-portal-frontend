@@ -1,0 +1,85 @@
+/* AdminMap.css */
+
+.amap-hd {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.amap-hd h2 {
+  font-size: clamp(1.4rem,3vw,2rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 4px;
+}
+
+.amap-hd small {
+  color: var(--gray-3);
+  font-size: 0.8rem;
+  font-family: var(--font-sans);
+}
+
+.amap-legend {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.amap-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: var(--gray-3);
+  font-family: var(--font-sans);
+}
+
+.amap-frame {
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+
+/* Leaflet popup */
+.amap-popup {
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  color: #111;
+  min-width: 190px;
+}
+.amap-popup strong {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: #0e0e12;
+}
+.amap-popup p {
+  margin: 2px 0;
+  font-size: 0.78rem;
+  color: #444;
+}
+
+/* Leaflet control overrides */
+.amap-frame .leaflet-control-zoom a {
+  background: var(--surface-2) !important;
+  color: var(--gray-1) !important;
+  border-color: var(--border-md) !important;
+}
+.amap-frame .leaflet-control-zoom a:hover {
+  background: var(--surface-3) !important;
+  color: var(--white) !important;
+}
+.amap-frame .leaflet-control-attribution {
+  background: rgba(6,6,8,0.75) !important;
+  color: var(--gray-3) !important;
+  font-size: 0.65rem !important;
+}
+.amap-frame .leaflet-control-attribution a {
+  color: var(--gray-3) !important;
+}

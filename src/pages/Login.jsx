@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
-import Navbar from '../components/Navbar';
+import './Login.css';
 
 export default function Login() {
     const [form, setForm] = useState({ email: '', password: ''});
@@ -25,40 +25,48 @@ export default function Login() {
     };
 
     return (
-        <>
-            <Navbar/>
-            <div className='container mt-5'>
-                <div className='row justify-content-center'>
-                    <div className='col-md-5'>
-                        <div className='border border-dark rounded p-1 card shadow'>
-                            <div className='card-body p-4'>
-                                <h3 className='text-center mb-1'>Welcome back</h3>
-                                <p className='text-center text-muted mb-4'>Login to your account</p>
-                                {error && <div className='alert alert-danger'>{error}</div>}
-                                <form onSubmit={handleSubmit}>
-                                    <div className='mb-3'>
-                                        <label className='form-label'>Email</label>
-                                        <input type='email' className='form-control' required 
-                                        onChange={e => setForm({...form, email: e.target.value})} />
-                                    </div>
-                                    <div className='mb-3'>
-                                        <label className='form-label'>Password</label>
-                                        <input type='password' className='form-control' required onChange={e => setForm({...form, password: e.target.value})}/>
-                                    </div>
-                                    <br/>
-                                    <button type='submit' className='btn btn-dark w-100' disabled={loading}>
-                                        {loading ? 'Logging in...' : 'Login'}
-                                    </button>
-                                </form>
-                                <br/>
-                                <p className='text-center mt-3 mb-0'>
-                                    No account ? <Link className='nb-link text-dark' to='/register'>Register here</Link>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+        <div className='login-root'>
+            {/* Left decorative panel */}
+            <div className='login-left'>
+                <span className='login-left-bg'>01</span>
+                <Link to='/' className='login-left-brand'>
+                    Civic<span>Portal</span>
+                </Link>
+                <div className='login-left-copy'>
+                    <h2>Report issues. <em>Drive change.</em></h2>
+                    <p>Join thousands of citizens already making their neighborhoods better — one report at a time.</p>
                 </div>
             </div>
-        </>
+
+            {/* Right form panel */}
+            <div className='login-right'>
+                <div className='login-form-wrap'>
+                    <h2 className='login-title'>Welcome back</h2>
+                    <p className='login-sub'>Login to your account</p>
+
+                    {error && <div className='alert alert-error'>{error}</div>}
+
+                    <form onSubmit={handleSubmit}>
+                        <div className='field'>
+                            <label className='label'>Email</label>
+                            <input type='email' className='input' required
+                                onChange={e => setForm({...form, email: e.target.value})} />
+                        </div>
+                        <div className='field'>
+                            <label className='label'>Password</label>
+                            <input type='password' className='input' required
+                                onChange={e => setForm({...form, password: e.target.value})} />
+                        </div>
+                        <button type='submit' className='login-submit' disabled={loading}>
+                            {loading ? 'Logging in...' : 'Login'}
+                        </button>
+                    </form>
+
+                    <p className='login-footer'>
+                        No account? <Link to='/register'>Register here</Link>
+                    </p>
+                </div>
+            </div>
+        </div>
     );
 }

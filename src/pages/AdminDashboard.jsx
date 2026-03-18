@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import api from '../services/api';
 import Navbar from '../components/Navbar';
 import StatusBadge from '../components/StatusBadge';
+import './AdminDashboard.css';
 
 const DEPARTMENTS = [
   { id: 1, name: 'Roads & Infrastructure' },
@@ -35,13 +36,12 @@ export default function AdminDashboard() {
   };
 
   const deleteComplaint = async (id) => {
-    if (!window.confirm('Are you sure you want to delete this comaplint?')) return;
+    if (!window.confirm('Are you sure you want to delete this complaint?')) return;
     try {
       await api.delete(`/admin/complaints/${id}`);
       loadAll();
     } catch (err) {
-      console.error('Delete error: ', err.response);
-      alert('Failed to delete comaplint');
+      alert('Failed to delete complaint');
     }
   };
 
@@ -49,136 +49,148 @@ export default function AdminDashboard() {
     ? complaints
     : complaints.filter(c => c.status === filter);
 
+  const STAT_FILTERS = [
+    { label: 'Total',       val: stats.total,       key: 'all' },
+    { label: 'Pending',     val: stats.pending,     key: 'pending' },
+    { label: 'In Progress', val: stats.in_progress, key: 'in_progress' },
+    { label: 'Resolved',    val: stats.resolved,    key: 'resolved' },
+  ];
+
   return (
     <>
       <Navbar />
-      <div className='container mt-4'>
-        <h2 className='mb-4'>Admin Dashboard</h2>
-
-        {/* Stats Cards */}
-        <div className='row mb-4 g-3'>
-          {[
-            { label: 'Total',       val: stats.total,       color: 'bg-primary',   filter: 'all' },
-            { label: 'Pending',     val: stats.pending,     color: 'bg-secondary', filter: 'pending' },
-            { label: 'In Progress', val: stats.in_progress, color: 'bg-warning',   filter: 'in_progress' },
-            { label: 'Resolved',    val: stats.resolved,    color: 'bg-success',   filter: 'resolved' },
-          ].map(s => (
-            <div key={s.label} className='col-6 col-md-3'>
-              <div
-                className={`card ${s.color} text-white text-center p-3`}
-                style={{ cursor: 'pointer' }}
-              >
-                <h2 className='mb-0'>{s.val}</h2>
-                <small>{s.label}</small>
-              </div>
+      <div className='pw-page'>
+        <div className='pw-container'>
+          <div className='adm-hd'>
+            <div>
+              <div className='section-label'>Admin Panel</div>
+              <h2>Admin Dashboard</h2>
             </div>
-          ))}
-        </div>
+          </div>
 
-        {/* Filter Tabs */}
-        <div className='mb-3'>
-          <div className='btn-group'>
-            {['all', 'pending', 'in_progress', 'resolved'].map(f => (
-              <button
-                key={f}
-                className={`btn btn-sm ${filter === f ? 'btn-dark' : 'btn-outline-dark'}`}
-                onClick={() => setFilter(f)}
+          {/* Stats Cards */}
+          <div className='adm-stats'>
+            {STAT_FILTERS.map(s => (
+              <div
+                key={s.label}
+                className={`stat-card${filter === s.key ? ' active' : ''}`}
+                onClick={() => setFilter(s.key)}
               >
-                {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
-              </button>
+                <div className='stat-num'>{s.val}</div>
+                <div className='stat-lbl'>{s.label}</div>
+              </div>
             ))}
           </div>
-        </div>
 
-        {/* Complaints Table */}
-        {loading ? (
-          <p className='text-muted'>Loading complaints...</p>
-        ) : filtered.length === 0 ? (
-          <div className='alert alert-info'>No complaints found.</div>
-        ) : (
-          <div className='table-responsive'>
-            <table className='table table-hover align-middle border border-dark'>
-              <thead className='table-dark'>
-                <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Category</th>
-                  <th>Location</th>
-                  <th>Submitted By</th>
-                  <th>Assign Dept</th>
-                  <th>Actions</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filtered.map(c => (
-                  <tr key={c.complaint_id}>
-                    <td>{c.complaint_id}</td>
-                    <td>
-                      <strong>{c.title}</strong>
-                      <br />
-                      <small className='text-muted'>{c.description?.substring(0, 50)}...</small>
-                    {c.images && c.images.length > 0 && (
-                      <div className='mt-1'>
-                        <img
-                          src={c.images[0].image_url}
-                          alt='Issue'
-                          className='rounded border'
-                          style={{width: '60px', height: '40px', objectFit: 'cover' }}
-                        />
-                      </div>
-                    )}
-                    </td>
-                    <td>{c.category?.category_name}</td>
-                    <td>
-                      {c.location
-                        ? `${c.location.area_name}${c.location.pincode ? ' - ' + c.location.pincode : ''}`
-                        : 'No location'
-                        }
-                    </td>
-                    <td>{c.user?.full_name}</td>
-                    <td>
-                      <select
-                        className='form-select form-select-sm'
-                        defaultValue={c.department?.department_id || ''}
-                        onChange={e => assignDept(c.complaint_id, e.target.value)}
-                      >
-                        <option value=''>Not assigned</option>
-                        {DEPARTMENTS.map(d => (
-                          <option key={d.id} value={d.id}>{d.name}</option>
-                        ))}
-                      </select>
-                    </td>
-                    <td>
-                      <div className='d-flex gap-1'>
-                        {c.status !== 'in_progress' && (
-                          <button
-                            className='btn btn-sm btn-outline-warning'
-                            onClick={() => updateStatus(c.complaint_id, 'in_progress')}
-                          >
-                            In Progress
-                          </button>
-                        )}
-                        {c.status !== 'resolved' && (
-                          <button
-                            className='btn btn-sm btn-success'
-                            onClick={() => updateStatus(c.complaint_id, 'resolved')}
-                          >
-                            Resolve
-                          </button>
-                        )}
-                        <button className='btn btn-sm btn-danger'
-                        onClick={() => deleteComplaint(c.complaint_id)}
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+          {/* Filter Tabs */}
+          <div className='adm-filters'>
+            <div className='tabs'>
+              {['all', 'pending', 'in_progress', 'resolved'].map(f => (
+                <button
+                  key={f}
+                  className={`tab${filter === f ? ' active' : ''}`}
+                  onClick={() => setFilter(f)}
+                >
+                  {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
+                </button>
+              ))}
+            </div>
           </div>
-        )}
+
+          {/* Table */}
+          {loading ? (
+            <div className='loading-center'><div className='spinner' /><span>Loading complaints...</span></div>
+          ) : filtered.length === 0 ? (
+            <div className='alert alert-info'>No complaints found.</div>
+          ) : (
+            <div className='adm-table-panel'>
+              <div className='table-wrap'>
+                <table className='table'>
+                  <thead>
+                    <tr>
+                      <th>#</th>
+                      <th>Title</th>
+                      <th>Category</th>
+                      <th>Location</th>
+                      <th>Submitted By</th>
+                      <th>Status</th>
+                      <th>Assign Dept</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filtered.map(c => (
+                      <tr key={c.complaint_id}>
+                        <td>{c.complaint_id}</td>
+                        <td>
+                          <div className='adm-issue-cell'>
+                            {c.images && c.images.length > 0 && (
+                              <img
+                                src={c.images[0].image_url}
+                                alt='Issue'
+                                className='adm-thumb'
+                              />
+                            )}
+                            <div>
+                              <span className='adm-issue-title'>{c.title}</span>
+                              <span className='adm-issue-desc'>{c.description?.substring(0, 50)}...</span>
+                            </div>
+                          </div>
+                        </td>
+                        <td>{c.category?.category_name}</td>
+                        <td>
+                          {c.location
+                            ? `${c.location.area_name}${c.location.pincode ? ' — ' + c.location.pincode : ''}`
+                            : 'No location'}
+                        </td>
+                        <td>{c.user?.full_name}</td>
+                        <td><StatusBadge status={c.status} /></td>
+                        <td>
+                          <select
+                            className='adm-select'
+                            defaultValue={c.department?.department_id || ''}
+                            onChange={e => assignDept(c.complaint_id, e.target.value)}
+                          >
+                            <option value=''>Not assigned</option>
+                            {DEPARTMENTS.map(d => (
+                              <option key={d.id} value={d.id}>{d.name}</option>
+                            ))}
+                          </select>
+                        </td>
+                        <td>
+                          <div className='adm-action-row'>
+                            {c.status !== 'in_progress' && (
+                              <button
+                                className='adm-btn adm-btn-warn'
+                                onClick={() => updateStatus(c.complaint_id, 'in_progress')}
+                              >
+                                In Progress
+                              </button>
+                            )}
+                            {c.status !== 'resolved' && (
+                              <button
+                                className='adm-btn adm-btn-ok'
+                                onClick={() => updateStatus(c.complaint_id, 'resolved')}
+                              >
+                                Resolve
+                              </button>
+                            )}
+                            <button
+                              className='adm-btn adm-btn-del'
+                              onClick={() => deleteComplaint(c.complaint_id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </>
   );

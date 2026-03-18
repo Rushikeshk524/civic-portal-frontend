@@ -14,20 +14,22 @@ export default function LandingPage() {
       {/* ── HERO ── */}
       <section className="hero">
         <div className="container">
-          <div className="hero-text">
-            <span className="tag-pill">Your Community · Your Voice</span>
-            <h1>
-              Connecting citizens to their{" "}
-              <em>local government</em>
-            </h1>
-            <p className="lead">
-              CivicPortal is a unified platform that makes it simple to report
-              issues, track requests, attend meetings, and participate in city
-              decisions.
-            </p>
-            <div className="hero-actions">
-              <Link to="/login" className="btn-gold">Get Started Free</Link>
-              <a href="#features" className="btn-outline">Learn More</a>
+          <div className="hero-inner">
+            <div className="hero-text">
+              <span className="tag-pill">Your Community · Your Voice</span>
+              <h1>
+                Connecting citizens to their{" "}
+                <em>local government</em>
+              </h1>
+              <p className="lead">
+                CivicPortal is a unified platform that makes it simple to report
+                issues, track requests, attend meetings, and participate in city
+                decisions.
+              </p>
+              <div className="hero-actions">
+                <Link to="/login" className="btn-gold">Get Started Free</Link>
+                <a href="#features" className="btn btn-outline">Learn More</a>
+              </div>
             </div>
           </div>
         </div>
@@ -88,7 +90,7 @@ export default function LandingPage() {
           <div className="features-grid">
 
             <div className="feature-card">
-              <div className="feat-icon icon-blue">
+              <div className="feat-icon">
                 <img src={locationIcon} alt="Issue Reporting" />
               </div>
               <h3>Issue Reporting</h3>
@@ -96,7 +98,7 @@ export default function LandingPage() {
             </div>
 
             <div className="feature-card">
-              <div className="feat-icon icon-gold">
+              <div className="feat-icon">
                 <img src={trackingIcon} alt="Real-Time Tracking" />
               </div>
               <h3>Real-Time Tracking</h3>
@@ -104,7 +106,7 @@ export default function LandingPage() {
             </div>
 
             <div className="feature-card">
-              <div className="feat-icon icon-green">
+              <div className="feat-icon">
                 <img src={communityIcon} alt="Community Forums" />
               </div>
               <h3>Community Forums</h3>
@@ -125,7 +127,7 @@ export default function LandingPage() {
           <div className="steps-grid">
             {STEPS.map((s) => (
               <div className="step" key={s.n}>
-                <div className="step-num">{s.n}</div>
+                <span className="step-num">{s.n}</span>
                 <strong className="step-title">{s.title}</strong>
                 <p className="step-desc">{s.desc}</p>
               </div>
@@ -143,12 +145,11 @@ export default function LandingPage() {
             Join thousands of residents already making their voices heard and
             their streets better.
           </p>
-          <Link to="/auth" className="btn-gold">Create Your Free Account</Link>
+          <Link to="/login" className="btn-gold">Create Your Free Account</Link>
         </div>
       </section>
 
-      <footer className="footer">
-      </footer>
+      <footer className="footer" />
     </div>
   );
 }

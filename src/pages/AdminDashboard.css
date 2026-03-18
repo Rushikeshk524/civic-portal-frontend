@@ -1,0 +1,99 @@
+/* AdminDashboard.css */
+
+.adm-hd {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+.adm-hd h2 {
+  font-size: clamp(1.4rem,3vw,2rem);
+  letter-spacing: -0.03em;
+  margin-bottom: 2px;
+}
+
+.adm-stats {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 24px;
+}
+@media (max-width: 700px) { .adm-stats { grid-template-columns: repeat(2,1fr); } }
+
+.adm-filters {
+  margin-bottom: 16px;
+}
+
+.adm-table-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+}
+
+.adm-thumb {
+  width: 48px; height: 36px;
+  object-fit: cover;
+  border-radius: var(--r-sm);
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.adm-issue-cell {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.adm-issue-title {
+  font-weight: 600;
+  color: var(--white);
+  font-size: 0.875rem;
+  display: block;
+  margin-bottom: 2px;
+}
+
+.adm-issue-desc {
+  font-size: 0.75rem;
+  color: var(--gray-3);
+}
+
+.adm-action-row { display: flex; gap: 5px; flex-wrap: wrap; }
+.adm-btn {
+  font-family: var(--font-sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  height: 28px;
+  padding: 0 11px;
+  border-radius: var(--r-sm);
+  border: 1px solid;
+  cursor: pointer;
+  transition: all 0.13s;
+  white-space: nowrap;
+}
+.adm-btn-warn   { background: var(--amber-dim); border-color: rgba(245,158,11,0.3); color: #fbbf24; }
+.adm-btn-warn:hover   { background: rgba(245,158,11,0.22); }
+.adm-btn-ok     { background: var(--green-dim); border-color: rgba(34,197,94,0.3); color: #4ade80; }
+.adm-btn-ok:hover     { background: rgba(34,197,94,0.22); }
+.adm-btn-del    { background: var(--red-dim); border-color: var(--red-border); color: var(--red); }
+.adm-btn-del:hover    { background: rgba(255,68,68,0.22); }
+
+.adm-select {
+  height: 32px;
+  background: var(--surface-2);
+  border: 1px solid var(--border-md);
+  border-radius: var(--r-sm);
+  padding: 0 10px;
+  color: var(--white);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  outline: none;
+  cursor: pointer;
+  min-width: 120px;
+}
+.adm-select:focus { border-color: var(--lime); }
+.adm-select option { background: var(--surface-2); color: var(--white); }

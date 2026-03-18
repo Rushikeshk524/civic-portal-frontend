@@ -1,0 +1,77 @@
+/* ImageUpload.css */
+
+.img-upload-label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gray-2);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  font-family: var(--font-sans);
+}
+.img-upload-label span {
+  color: var(--gray-3);
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.img-upload-input {
+  width: 100%;
+  background: var(--surface-2);
+  border: 1px dashed var(--border-md);
+  border-radius: var(--r-md);
+  padding: 10px 14px;
+  color: var(--gray-2);
+  font-family: var(--font-sans);
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: border-color 0.18s;
+  margin-bottom: 10px;
+}
+.img-upload-input:hover { border-color: var(--lime); }
+.img-upload-input::file-selector-button {
+  background: var(--surface-3);
+  border: 1px solid var(--border-md);
+  color: var(--gray-1);
+  border-radius: var(--r-sm);
+  padding: 4px 12px;
+  font-family: var(--font-sans);
+  font-size: 0.8rem;
+  cursor: pointer;
+  margin-right: 12px;
+  transition: all 0.15s;
+}
+.img-upload-input::file-selector-button:hover {
+  background: var(--surface-4);
+  color: var(--white);
+}
+
+.img-upload-spinner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--gray-3);
+  font-size: 0.82rem;
+  font-family: var(--font-sans);
+  margin-bottom: 8px;
+}
+
+.img-upload-preview {
+  margin-top: 10px;
+}
+.img-upload-preview img {
+  width: 100%;
+  max-height: 200px;
+  object-fit: cover;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+.img-upload-success {
+  font-size: 0.78rem;
+  color: #86efac;
+  font-family: var(--font-mono);
+  margin-top: 6px;
+  display: block;
+}
