@@ -61,9 +61,16 @@
 }
 
 .adm-issue-desc {
-  font-size: 0.75rem;
-  color: var(--gray-3);
+  font-size: 0.8rem;
+  color: var(--white);
+  background: var(--surface-3);
+  padding: 4px 8px;
+  border-left: 3px solid var(--lime);
+  border-radius: 0 var(--r-sm) var(--r-sm) 0;
   margin-bottom: 2px;
+  line-height: 1.5;
+  display: inline-block;
+  margin-top: 4px;
 }
 
 .adm-address-cell {

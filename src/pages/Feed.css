@@ -98,8 +98,7 @@
 
 .feed-img {
   width: 100%;
-  max-height: 220px;
-  object-fit: cover;
+  height: auto;
   border-radius: var(--r-md);
   border: 1px solid var(--border);
   margin-bottom: 12px;
