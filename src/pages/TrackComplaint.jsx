@@ -67,7 +67,7 @@ export default function TrackComplaint() {
                 <div className='track-chips'>
                   {c.category && <span className='chip'> {c.category.category_name}</span>}
                   {c.department && <span className='chip'> {c.department.department_name}</span>}
-                  {!c.department && <span className='chip'>🏢 Not assigned yet</span>}
+                  {!c.department && <span className='chip'>Not assigned yet</span>}
                 </div>
 
                 {c.location && (
