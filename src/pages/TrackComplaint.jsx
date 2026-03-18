@@ -65,11 +65,11 @@ export default function TrackComplaint() {
                 </div>
 
                 <div className='track-chips'>
-                  {c.category && <span className='chip'>📁 {c.category.category_name}</span>}
-                  {c.department && <span className='chip'>🏢 {c.department.department_name}</span>}
+                  {c.category && <span className='chip'> {c.category.category_name}</span>}
+                  {c.department && <span className='chip'> {c.department.department_name}</span>}
                   {c.location && (
                     <span className='chip'>
-                      📍 {c.location.area_name}{c.location.pincode ? ` — ${c.location.pincode}` : ''}
+                       {c.location.area_name}{c.location.pincode ? ` — ${c.location.pincode}` : ''}
                     </span>
                   )}
                   {!c.department && <span className='chip'>🏢 Not assigned yet</span>}
@@ -84,7 +84,7 @@ export default function TrackComplaint() {
                 )}
 
                 <div className='track-card-date'>
-                  🗓️ {new Date(c.created_at).toLocaleDateString('en-IN', {
+                  {new Date(c.created_at).toLocaleDateString('en-IN', {
                     day: 'numeric', month: 'long', year: 'numeric'
                   })}
                 </div>

@@ -81,22 +81,6 @@ export default function AdminDashboard() {
               </div>
             ))}
           </div>
-
-          {/* Filter Tabs */}
-          <div className='adm-filters'>
-            <div className='tabs'>
-              {['all', 'pending', 'in_progress', 'resolved'].map(f => (
-                <button
-                  key={f}
-                  className={`tab${filter === f ? ' active' : ''}`}
-                  onClick={() => setFilter(f)}
-                >
-                  {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
-                </button>
-              ))}
-            </div>
-          </div>
-
           {/* Table */}
           {loading ? (
             <div className='loading-center'><div className='spinner' /><span>Loading complaints...</span></div>

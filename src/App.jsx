@@ -19,11 +19,11 @@ function App() {
         <Route path='/'          element={<LandingPage/>} />
         <Route path='/login'     element={<Login />} />
         <Route path='/register'  element={<Register />} />
-        <Route path='/feed'      element={<PrivateRoute><Feed /></PrivateRoute>} />
-        <Route path='/report'    element={<PrivateRoute><ReportComplaint /></PrivateRoute>} />
-        <Route path='/track'     element={<PrivateRoute><TrackComplaint /></PrivateRoute>} />
-        <Route path='/admin'     element={<PrivateRoute><AdminDashboard /></PrivateRoute>} />
-        <Route path='/admin/map' element={<PrivateRoute><AdminMap /></PrivateRoute>} />
+        <Route path='/feed'      element={<Feed />} />
+        <Route path='/report'    element={<ReportComplaint />} />
+        <Route path='/track'     element={<TrackComplaint />} />
+        <Route path='/admin'     element={<AdminDashboard />} />
+        <Route path='/admin/map' element={<AdminMap />} />
       </Routes>
     </BrowserRouter>
   );

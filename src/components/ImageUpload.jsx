@@ -75,7 +75,7 @@ export default function ImageUpload({ onUpload, onUploadStart, onUploadEnd }) {
             src={preview}
             alt='Preview'
           />
-          <span className='img-upload-success'>✓ Image uploaded successfully</span>
+          <span className='img-upload-success'>Image uploaded successfully</span>
         </div>
       )}
     </div>

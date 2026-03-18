@@ -19,7 +19,7 @@ export default function Navbar() {
         <nav className='nb'>
             {/* Brand — Left */}
             <Link to='/' className='nb-brand'>
-                IssueBridge
+                Public Watch
             </Link>
 
             {/* Nav Links — Center */}
