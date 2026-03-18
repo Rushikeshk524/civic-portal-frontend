@@ -108,6 +108,10 @@ export default function AdminDashboard() {
                         <td>{c.complaint_id}</td>
                         <td>
                           <div className='adm-issue-cell'>
+                            <div>
+                              <span className='adm-issue-title'>{c.title}</span>
+                              <span className='adm-issue-desc'>{c.description?.substring(0, 50)}...</span>
+                            </div>
                             {c.images && c.images.length > 0 && (
                               <img
                                 src={c.images[0].image_url}
@@ -115,17 +119,15 @@ export default function AdminDashboard() {
                                 className='adm-thumb'
                               />
                             )}
-                            <div>
-                              <span className='adm-issue-title'>{c.title}</span>
-                              <span className='adm-issue-desc'>{c.description?.substring(0, 50)}...</span>
-                            </div>
                           </div>
                         </td>
                         <td>{c.category?.category_name}</td>
                         <td>
-                          {c.location
-                            ? `${c.location.area_name}${c.location.pincode ? ' — ' + c.location.pincode : ''}`
-                            : 'No location'}
+                          <div className="adm-address-cell">
+                            {c.location
+                              ? `${c.location.area_name}${c.location.pincode ? ' — ' + c.location.pincode : ''}`
+                              : 'No location'}
+                          </div>
                         </td>
                         <td>{c.user?.full_name}</td>
                         <td><StatusBadge status={c.status} /></td>
