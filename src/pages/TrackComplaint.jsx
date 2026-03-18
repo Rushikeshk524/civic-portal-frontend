@@ -67,13 +67,14 @@ export default function TrackComplaint() {
                 <div className='track-chips'>
                   {c.category && <span className='chip'> {c.category.category_name}</span>}
                   {c.department && <span className='chip'> {c.department.department_name}</span>}
-                  {c.location && (
-                    <span className='chip'>
-                       {c.location.area_name}{c.location.pincode ? ` — ${c.location.pincode}` : ''}
-                    </span>
-                  )}
                   {!c.department && <span className='chip'>🏢 Not assigned yet</span>}
                 </div>
+
+                {c.location && (
+                  <div className='track-card-location'>
+                     {c.location.area_name}{c.location.pincode ? ` — ${c.location.pincode}` : ''}
+                  </div>
+                )}
 
                 {c.images && c.images.length > 0 && (
                   <img
