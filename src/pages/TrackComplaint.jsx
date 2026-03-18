@@ -76,18 +76,20 @@ export default function TrackComplaint() {
                   </div>
                 )}
 
-                {c.images && c.images.length > 0 && (
-                  <img
-                    src={c.images[0].image_url}
-                    alt='Complaint'
-                    className='track-card-img'
-                  />
-                )}
+                <div className='track-card-bottom'>
+                  {c.images && c.images.length > 0 && (
+                    <img
+                      src={c.images[0].image_url}
+                      alt='Complaint'
+                      className='track-card-img'
+                    />
+                  )}
 
-                <div className='track-card-date'>
-                  {new Date(c.created_at).toLocaleDateString('en-IN', {
-                    day: 'numeric', month: 'long', year: 'numeric'
-                  })}
+                  <div className='track-card-date'>
+                    {new Date(c.created_at).toLocaleDateString('en-IN', {
+                      day: 'numeric', month: 'long', year: 'numeric'
+                    })}
+                  </div>
                 </div>
               </div>
             ))}
