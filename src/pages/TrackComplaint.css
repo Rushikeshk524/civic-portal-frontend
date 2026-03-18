@@ -69,6 +69,7 @@
   margin-bottom: 12px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -93,8 +94,7 @@
 }
 .track-card-img {
   width: 100%;
-  height: 130px;
-  object-fit: cover;
+  height: auto;
   border-radius: var(--r-md);
   border: 1px solid var(--border);
   margin-bottom: 10px;

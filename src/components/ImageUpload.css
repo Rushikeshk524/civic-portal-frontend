@@ -63,8 +63,7 @@
 }
 .img-upload-preview img {
   width: 100%;
-  max-height: 200px;
-  object-fit: cover;
+  height: auto;
   border-radius: var(--r-md);
   border: 1px solid var(--border);
 }

@@ -37,8 +37,7 @@
 
 .adm-thumb {
   width: 120px;
-  height: 90px;
-  object-fit: cover;
+  height: auto;
   border-radius: var(--r-sm);
   border: 1px solid var(--border);
   flex-shrink: 0;
