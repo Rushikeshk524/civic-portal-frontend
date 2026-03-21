@@ -17,6 +17,19 @@
   margin-bottom: 4px;
 }
 
+.amap-hd-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.amap-dept-select {
+  height: 38px;
+  font-size: 0.85rem;
+  padding: 0 14px;
+}
+
 .amap-hd small {
   color: var(--gray-3);
   font-size: 0.8rem;

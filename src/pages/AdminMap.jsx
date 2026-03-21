@@ -32,14 +32,23 @@ const icons = {
 
 export default function AdminMap() {
   const [complaints, setComplaints] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [selectedDept, setSelectedDept] = useState('');
   const [loading, setLoading]       = useState(true);
   const [filter, setFilter]         = useState('all');
 
   useEffect(() => {
-    api.get('/admin/complaints')
+    api.get('/departments')
+      .then(r => setDepartments(r.data))
+      .catch(err => console.error("Error fetching departments", err));
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    api.get('/admin/complaints', { params: { department_id: selectedDept } })
       .then(r => { setComplaints(r.data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, []);
+  }, [selectedDept]);
 
   const withLocation = complaints.filter(
     c => c.location?.latitude && c.location?.longitude
@@ -61,17 +70,32 @@ export default function AdminMap() {
               <small>Showing {filtered.length} of {complaints.length} complaints with location</small>
             </div>
 
-            {/* Filter Tabs */}
-            <div className='tabs'>
-              {['all', 'pending', 'in_progress', 'resolved'].map(f => (
-                <button
-                  key={f}
-                  className={`tab${filter === f ? ' active' : ''}`}
-                  onClick={() => setFilter(f)}
-                >
-                  {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
-                </button>
-              ))}
+            <div className='amap-hd-right'>
+              <select 
+                className='adm-select amap-dept-select'
+                value={selectedDept}
+                onChange={(e) => setSelectedDept(e.target.value)}
+              >
+                <option value=''>All Departments</option>
+                {departments.map(dept => (
+                  <option key={dept.department_id} value={dept.department_id}>
+                    {dept.department_name}
+                  </option>
+                ))}
+              </select>
+
+              {/* Filter Tabs */}
+              <div className='tabs'>
+                {['all', 'pending', 'in_progress', 'resolved'].map(f => (
+                  <button
+                    key={f}
+                    className={`tab${filter === f ? ' active' : ''}`}
+                    onClick={() => setFilter(f)}
+                  >
+                    {f === 'all' ? 'All' : f === 'in_progress' ? 'In Progress' : f.charAt(0).toUpperCase() + f.slice(1)}
+                  </button>
+                ))}
+              </div>
             </div>
           </div>
 

@@ -4,25 +4,32 @@ import Navbar from '../components/Navbar';
 import StatusBadge from '../components/StatusBadge';
 import './AdminDashboard.css';
 
-const DEPARTMENTS = [
-  { id: 1, name: 'Roads & Infrastructure' },
-  { id: 2, name: 'Sanitation Department' },
-  { id: 3, name: 'Water Supply Board' },
-  { id: 4, name: 'Electricity Department' },
-];
 
 export default function AdminDashboard() {
   const [complaints, setComplaints] = useState([]);
   const [stats, setStats]           = useState({ total:0, pending:0, in_progress:0, resolved:0 });
   const [loading, setLoading]       = useState(true);
   const [filter, setFilter]         = useState('all');
+  const [departments, setDepartments] = useState([]);
+  const [selectedDept, setSelectedDept] = useState('');
 
-  const loadAll = () => {
-    api.get('/admin/complaints').then(r => { setComplaints(r.data); setLoading(false); });
+  const loadAll = (deptId = selectedDept) => {
+    setLoading(true);
+    api.get('/admin/complaints', { params: { department_id: deptId } })
+      .then(r => { setComplaints(r.data); setLoading(false); });
     api.get('/admin/stats').then(r => setStats(r.data));
   };
 
-  useEffect(() => { loadAll(); }, []);
+  useEffect(() => {
+    api.get('/departments')
+      .then(r => setDepartments(r.data))
+      .catch(err => console.error("Error fetching departments", err));
+    loadAll();
+  }, []);
+
+  useEffect(() => {
+    loadAll();
+  }, [selectedDept]);
 
   const updateStatus = async (id, status) => {
     await api.patch(`/admin/complaints/${id}/status`, { status });
@@ -65,6 +72,20 @@ export default function AdminDashboard() {
             <div>
               <div className='section-label'>Admin Panel</div>
               <h2>Admin Dashboard</h2>
+            </div>
+            <div className='adm-hd-filters'>
+              <select 
+                className='adm-select'
+                value={selectedDept}
+                onChange={(e) => setSelectedDept(e.target.value)}
+              >
+                <option value=''>All Departments</option>
+                {departments.map(dept => (
+                  <option key={dept.department_id} value={dept.department_id}>
+                    {dept.department_name}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
@@ -138,8 +159,8 @@ export default function AdminDashboard() {
                             onChange={e => assignDept(c.complaint_id, e.target.value)}
                           >
                             <option value=''>Not assigned</option>
-                            {DEPARTMENTS.map(d => (
-                              <option key={d.id} value={d.id}>{d.name}</option>
+                            {departments.map(d => (
+                              <option key={d.department_id} value={d.department_id}>{d.department_name}</option>
                             ))}
                           </select>
                         </td>
