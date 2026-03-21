@@ -22,8 +22,8 @@ export default function LandingPage() {
                 <em>local government</em>
               </h1>
               <p className="lead">
-                CivicPortal is a unified platform that makes it simple to report
-                issues, track requests, attend meetings, and participate in city
+                Public Watch is a unified platform that makes it simple to report
+                issues, track requests and participate in city
                 decisions.
               </p>
               <div className="hero-actions">

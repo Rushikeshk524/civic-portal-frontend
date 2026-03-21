@@ -6,13 +6,22 @@ import './TrackComplaint.css';
 
 export default function TrackComplaint() {
   const [complaints, setComplaints] = useState([]);
+  const [departments, setDepartments] = useState([]);
+  const [selectedDept, setSelectedDept] = useState('');
   const [loading, setLoading]       = useState(true);
 
   useEffect(() => {
-    api.get('/complaints')
+    api.get('/departments')
+      .then(r => setDepartments(r.data))
+      .catch(err => console.error("Error fetching departments", err));
+  }, []);
+
+  useEffect(() => {
+    setLoading(true);
+    api.get('/complaints', { params: { department_id: selectedDept } })
       .then(r => { setComplaints(r.data); setLoading(false); })
       .catch(() => setLoading(false));
-  }, []);
+  }, [selectedDept]);
 
   const statusColor = (status) => {
     if (status === 'resolved')    return 'var(--green)';
@@ -27,8 +36,21 @@ export default function TrackComplaint() {
         <div className='pw-container'>
           <div className='track-hd'>
             <div>
-              <div className='section-label'>My Complaints</div>
               <h2>My Complaints</h2>
+              <div className='track-filters'>
+                <select 
+                  className='filter-select'
+                  value={selectedDept}
+                  onChange={(e) => setSelectedDept(e.target.value)}
+                >
+                  <option value=''>All Departments</option>
+                  {departments.map(dept => (
+                    <option key={dept.department_id} value={dept.department_id}>
+                      {dept.department_name}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <a href='/report' className='btn btn-lime btn-sm'>+ Report New Issue</a>
           </div>

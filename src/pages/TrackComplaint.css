@@ -16,6 +16,31 @@
   margin-bottom: 2px;
 }
 
+.track-filters {
+  margin-top: 12px;
+}
+
+.filter-select {
+  background: var(--surface-2);
+  border: 1px solid var(--border);
+  color: var(--white);
+  padding: 8px 12px;
+  border-radius: var(--r-md);
+  font-size: 0.875rem;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.filter-select:focus {
+  border-color: var(--lime);
+}
+
+.filter-select option {
+  background: var(--surface-1);
+  color: var(--white);
+}
+
 .track-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
